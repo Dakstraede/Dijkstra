@@ -1,6 +1,10 @@
+import dijkstra.parser.FileParser;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        String testfile = "test.txt";
+
+        System.out.println(FileParser.isParseable(testfile));
     }
 }
