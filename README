@@ -1,1 +1,63 @@
-This file was created by IntelliJ IDEA 12.1.4 for binding GitHub repository
+L'objectif du projet est de simuler le déplacement d'une foule à l'intérieur
+d'un terrain prédéfini. Le terrain contient des zones de déplacement autorisées,
+des zones de déplacements interdits ainsi que des points d'apparition des
+personnages constituant la foule et des objectifs de destination.
+Le terrain est construit à partir d'un fichier texte qui suit la structure
+suivante :
+
+************************************************
+*      *              *                    A   *
+* ** A  *   ********** *             *   *     *
+* **    *     *      * * *******     *****     *
+*  *    ****  * G*   *   GGG      *  *         *
+*  *        *  * G*   *******     *  ******    *
+*               GG* *       *     *       **   *
+*****G********************  *  ********   *    *
+*  GGGG  * GGGG   *         *         *   *  * *
+* *** GG * G*G***** ***     ******    *   *    *
+*GGGGGG  * G*G*       *          *    *   **   *
+* G****  *        *************  ******   *    *
+* GGGGGGGGG *   P      GGGG  *           *     *
+****** ******     ****  GGGG  *      ********  *
+*           *     *       GGG *                *
+*  ******   *                                  *
+*   *            P                      D      *
+*    D      *                                  *
+************************************************
+
+Sémantique des symboles :
+• * : un mur
+• G : une zone d'herbe
+• ' ' : une zone de déplacement
+• D : les points d'apparition des personnages
+• A : les points d'arrivée des personnages.
+Le terrain doit obligatoirement être fermé (entouré de murs).
+
+Les zones d'herbe nécessitent 2 unités de temps pour un déplacement, alors que
+les zones standards, 1 seule unité.
+Les personnes constituant la foule sont symbolisées par des souris. Lors de
+leurs déplacements, les souris ne peuvent pas passer simultanément sur la même
+case, de même, elles de peuvent pas passer par dessus. Si une zone de passage
+est embouteillée, elle doivent attendre leur tour ou chercher un autre
+itinéraire plus rapide.
+
+
+Les souris apparaissent à un endroit déterminée, mais elles choisissent
+librement leur destination.
+Elles ne peuvent apparaître que sur une case contiguë à la porte. Si aucune case
+n'est disponible, elles doivent attendre qu'une se libère.
+Votre objectif est que l'ensemble des souris rejoignent les gruyères en un
+nombre de tour minimum.
+Le tour est l'unité de déplacement par défaut (un tour), pour la simulation,
+l'unité de temps est fixé à 1 seconde, mais devra être facilement paramétrable
+pendant la soutenance.
+A chaque tour, tant qu'il y a des souris à l'intérieur de la porte, elles
+doivent apparaître sur la carte.
+Le nombre de souris pouvant apparaître à chaque porte devra pouvoir être
+déterminé dans le programme que vous avez à réaliser.
+
+Concernant le calcul d'itinéraire, vous devrez implémenter une solution à partir
+d'un graphe et utiliser l'algorithme de Djikstra ou A*. Les optimisations tels
+que les calculs bidirectionnels seront les bienvenues.
+Le programme devra permettre de charge n'importe quelle carte respectant le
+format défini.
