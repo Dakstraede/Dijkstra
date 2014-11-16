@@ -1,4 +1,3 @@
-import dijkstra.controlers.SimulControler;
 import dijkstra.parser.FileParser;
 
 public class Main {
