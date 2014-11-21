@@ -1,5 +1,9 @@
 package dijkstra.parser;
 
+import dijkstra.graph.Graph;
+import dijkstra.model.content.Content;
+import dijkstra.model.content.immobiles.*;
+
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -10,20 +14,68 @@ import java.util.Vector;
  */
 
 public class FileParser {
-    public static void parseFile(File file){
+    public static Graph parseFile(String file){
         try{
-            String line;
+            String line; //current line during file reading
             int lineCount = 0;
+            int lineLength = 0;
+            StringBuilder content = new StringBuilder(); //content of the file, in one String
             InputStream ips=new FileInputStream(file);
             InputStreamReader ipsr=new InputStreamReader(ips);
             BufferedReader br=new BufferedReader(ipsr);
 
+            //filling the StringBuilder
             while((line = br.readLine()) != null){
                 lineCount++;
+                lineLength = line.length();
+                content.append(line);
             }
+
+
+            //Final Graph object construction
+            int i = 0;
+            char current;
+            Graph graph = new Graph(lineLength, lineCount);
+            while(i < content.length()-1){
+                current = content.charAt(i);
+                Content element;
+                switch(current){
+                    case ' ' :
+                        element = new Immobile(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
+                        graph.addNode(element,i);
+                        break;
+
+                    case '*' :
+                        element = new Wall(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
+                        graph.addWall(element, i);
+                        break;
+
+                    case 'G' :
+                        element = new Grass(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
+                        graph.addNode(element, i);
+                        break;
+
+                    case 'D' :
+                        element = new Door(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
+                        graph.addDoor(element, i);
+                        break;
+
+                    case 'A' :
+                        element = new Exit(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
+                        graph.addExit(element, i);
+                        break;
+
+                    default :
+                        break;
+                }
+                i++;
+            }
+
+            return graph;
         }
         catch(IOException e){
             e.printStackTrace();
+            return null;
         }
     }
 
