@@ -15,15 +15,6 @@ import javax.swing.SwingUtilities;
 
 class Surface extends JPanel {
 	
-	private String imgPath = "resources" + File.pathSeparator + "tiles";
-	
-	private BufferedImage cheese;
-	private BufferedImage deer;
-	private BufferedImage empty;
-	private BufferedImage grass;
-	private BufferedImage sandshrew;
-	private BufferedImage wall;
-	
 	private TexturePaint cheesep;
 	private TexturePaint deerp;
 	private TexturePaint emptyp;
@@ -35,7 +26,7 @@ class Surface extends JPanel {
 	private static final long serialVersionUID = 3686833008183249761L;
 	
 	public Surface() throws IOException {
-		loadImages();
+		R.load();
 	}
 
 	private void doDrawing(Graphics g) {
@@ -43,13 +34,16 @@ class Surface extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawString("Java 2D", 50, 50);
         
-        emptyp = new TexturePaint(empty, new Rectangle(0, 0, 26, 26));
+        emptyp = new TexturePaint(R.getImage("empty"), new Rectangle(0, 0, 26, 26));
         g2d.setPaint(emptyp);
         g2d.fillRect(0, 0, 26, 26);
         
-        cheesep = new TexturePaint(cheese, new Rectangle(0, 0, 26, 26));
+        cheesep = new TexturePaint(R.getImage("cheese"), new Rectangle(0, 0, 26, 26));
         g2d.setPaint(cheesep);
         g2d.fillRect(0, 0, 26, 26);
+        
+        g2d.setPaint(emptyp);
+        g2d.fillRect(26, 0, 26, 26);
     }
 
     @Override
@@ -58,16 +52,6 @@ class Surface extends JPanel {
         super.paintComponent(g);
         doDrawing(g);
     }
-    
-    private void loadImages() throws IOException {
-    	cheese = ImageIO.read(new File("cheese.png"));
-    	deer = ImageIO.read(new File("deer.png"));
-    	empty = ImageIO.read(new File("empty.png"));
-    	grass = ImageIO.read(new File("grass.png"));
-    	sandshrew = ImageIO.read(new File("sandshrew.png"));
-    	wall = ImageIO.read(new File("wall.png"));
-    }
-
 }
 
 
