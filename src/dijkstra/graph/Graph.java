@@ -1,7 +1,5 @@
 package dijkstra.graph;
 
-import dijkstra.model.content.Content;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,17 +10,18 @@ public class Graph {
 
 	private int height, width;
 
-	private HashMap<Integer, Content> nodes;
-    private HashMap<Integer, Content> doors;
-    private HashMap<Integer, Content> exits;
-	private HashMap<Integer, Content> walls;
+	private HashMap<Integer, Node> grounds;
+	private HashMap<Integer, Node> grass;
+    private HashMap<Integer, Node> doors;
+    private HashMap<Integer, Node> exits;
+	private HashMap<Integer, Node> walls;
 	
 	private List<Edge> edges;
-	private List<Node> vertexes;
 
     public Graph(int width, int height) {
 		super();
-		nodes = new HashMap<>();
+		grounds = new HashMap<>();
+		grass = new HashMap<>();
 		doors = new HashMap<>();
 		exits = new HashMap<>();
 		walls = new HashMap<>();
@@ -31,20 +30,24 @@ public class Graph {
 	}
 
 
-    public void addNode(Content node, int key){
-		this.nodes.put(key, node);
+    public void addGround(Node node, int key){
+		this.grounds.put(key, node);
 	}
 
-	public void addDoor(Content node, int key){
+	public void addDoor(Node node, int key){
 		this.doors.put(key, node);
 	}
 
-	public void addExit(Content node, int key){
+	public void addExit(Node node, int key){
 		this.exits.put(key, node);
 	}
 
-	public void addWall(Content node, int key){
+	public void addWall(Node node, int key){
 		this.walls.put(key, node);
+	}
+
+	public void addGrass(Node node, int key){
+		this.grass.put(key, node);
 	}
 
 	public int getHeight(){
@@ -56,7 +59,11 @@ public class Graph {
 	}
 
 	public int getNumberOfGrounds(){
-		return this.nodes.size();
+		return this.grounds.size();
+	}
+
+	public int getNumberOfGrass(){
+		return this.grass.size();
 	}
 
 	public int getNumberOfDoors(){
@@ -78,13 +85,6 @@ public class Graph {
 	public void setEdges(List<Edge> edges) {
 		this.edges = edges;
 	}
-	
-	public List<Node> getVertexes() {
-		return vertexes;
-	}
-	
-	public void setVertexes(List<Node> vertexes) {
-		this.vertexes = vertexes;
-	}
+
 }
 

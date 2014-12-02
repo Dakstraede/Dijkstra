@@ -1,17 +1,14 @@
 package dijkstra.model;
-
-import dijkstra.model.content.Content;
-import dijkstra.model.content.mobiles.Sandshrew;
 import dijkstra.util.Dimension;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//@TODO : Faire les adaptations nécessaires par rapport aux modifications vues à la réunion -> Node est le standard
 public class GameMap {
 
     private Dimension dimension;
 
-    private List<Content> contents = new ArrayList<Content>();
+    /*private List<Content> contents = new ArrayList<Content>();
     
     public GameMap(Dimension dimensions){
         this.dimension = dimensions;
@@ -38,5 +35,5 @@ public class GameMap {
             }
         }
         return sList;
-    }
+    }*/
 }

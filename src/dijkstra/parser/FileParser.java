@@ -1,8 +1,7 @@
 package dijkstra.parser;
 
 import dijkstra.graph.Graph;
-import dijkstra.model.content.Content;
-import dijkstra.model.content.immobiles.*;
+import dijkstra.graph.Node;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -24,53 +23,56 @@ public class FileParser {
             InputStreamReader ipsr=new InputStreamReader(ips);
             BufferedReader br=new BufferedReader(ipsr);
 
-            //filling the StringBuilder
+            /*filling the StringBuilder*/
             while((line = br.readLine()) != null){
                 lineCount++;
                 lineLength = line.length();
                 content.append(line);
             }
 
+            br.close(); //stream closing
 
-            //Final Graph object construction
-            int i = 0;
-            char current;
-            Graph graph = new Graph(lineLength, lineCount);
-            while(i < content.length()-1){
-                current = content.charAt(i);
-                Content element;
-                switch(current){
-                    case ' ' :
-                        element = new Immobile(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
-                        graph.addNode(element,i);
-                        break;
-
-                    case '*' :
-                        element = new Wall(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
-                        graph.addWall(element, i);
-                        break;
-
-                    case 'G' :
-                        element = new Grass(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
-                        graph.addNode(element, i);
-                        break;
-
-                    case 'D' :
-                        element = new Door(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
-                        graph.addDoor(element, i);
-                        break;
-
-                    case 'A' :
-                        element = new Exit(((i+1)%lineLength)-1, ((i+1)/lineCount)-1);
-                        graph.addExit(element, i);
-                        break;
-
-                    default :
-                        break;
-                }
-                i++;
+            /*filling an array with the StringBuilder characters*/
+            char[][] fileToArray = new char[lineLength][lineCount];
+            for(int j = 0; j < lineCount; j++){
+                for(int i = 0; i < lineLength; i++)
+                    fileToArray[i][j] = content.charAt(i+j*lineLength);
             }
 
+
+            /*Final Graph object construction*/
+            char current;
+            int index = 0;
+            Graph graph = new Graph(lineLength, lineCount);
+            for(int j = 0; j < lineCount; j++) {
+                for (int i = 0; i < lineLength; i++) {
+                    current = fileToArray[i][j];
+                    System.out.print(current);
+                    switch (current) {
+                        case '*':
+                            graph.addWall(new Node(index, Node.WALL), index);
+                            break;
+
+                        case 'G':
+                            graph.addGrass(new Node(index, Node.GRASS), index);
+                            break;
+
+                        case 'D':
+                            graph.addDoor(new Node(index, Node.DOOR), index);
+                            break;
+
+                        case 'A':
+                            graph.addExit(new Node(index, Node.CHEESE), index);
+                            break;
+
+                        default:
+                            graph.addGround(new Node(index, Node.GROUND), index);
+                            break;
+                    }
+                    index++;
+                }
+                System.out.println();
+            }
             return graph;
         }
         catch(IOException e){
