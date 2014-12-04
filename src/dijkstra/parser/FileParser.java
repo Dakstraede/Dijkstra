@@ -1,5 +1,6 @@
 package dijkstra.parser;
 
+import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
 
@@ -68,6 +69,16 @@ public class FileParser {
                         default:
                             graph.addGround(new Node(index, Node.GROUND), index);
                             break;
+                    }
+                    if(current != '*'){
+                        if(fileToArray[i+1][j] != '*')
+                            graph.addEdge(new Edge(index, (index+1), 1));
+                        if(fileToArray[i-1][j+1] != '*')
+                            graph.addEdge(new Edge(index, (index+lineLength-1),1));
+                        if(fileToArray[i][j+1] != '*')
+                            graph.addEdge(new Edge(index, (index+lineLength),1));
+                        if(fileToArray[i+1][j+1] != '*')
+                            graph.addEdge(new Edge(index, (index+lineLength+1),1));
                     }
                     index++;
                 }

@@ -1,5 +1,6 @@
 package dijkstra.graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Graph {
     private HashMap<Integer, Node> exits;
 	private HashMap<Integer, Node> walls;
 	
-	private List<Edge> edges;
+	private ArrayList<Edge> edges;
 
     public Graph(int width, int height) {
 		super();
@@ -25,10 +26,11 @@ public class Graph {
 		doors = new HashMap<>();
 		exits = new HashMap<>();
 		walls = new HashMap<>();
+		this.edges = new ArrayList<>();
 		this.height = height;
 		this.width = width;
 	}
-
+	
 
     public void addGround(Node node, int key){
 		this.grounds.put(key, node);
@@ -48,6 +50,10 @@ public class Graph {
 
 	public void addGrass(Node node, int key){
 		this.grass.put(key, node);
+	}
+
+	public void addEdge(Edge edge){
+		this.edges.add(edge);
 	}
 
 	public int getHeight(){
@@ -78,13 +84,14 @@ public class Graph {
 		return this.walls.size();
 	}
 
-	public List<Edge> getEdges() {
+	public int getNumberOfEdges(){
+		return this.edges.size();
+	}
+
+	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
-	
-	public void setEdges(List<Edge> edges) {
-		this.edges = edges;
-	}
+
 
 }
 

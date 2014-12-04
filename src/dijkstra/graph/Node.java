@@ -19,8 +19,8 @@ public class Node {
 
 	public Node(int id, String type) {
 		super();
-		setId(id);
-		setType(type);
+		this.id = id;
+		this.type = type;
 	}
 
 	public String getType() {
@@ -31,7 +31,10 @@ public class Node {
 		this.type = type;
 	}
 
-	
+	public void setOccupation(boolean occupation){
+		this.isOccuped = occupation;
+	}
+
 	public boolean isOccuped() {
 		return this.isOccuped;
 	}

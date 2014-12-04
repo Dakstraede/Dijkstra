@@ -16,6 +16,7 @@ public class Main {
             System.out.println("doors : "+graph.getNumberOfDoors());
             System.out.println("exits : "+graph.getNumberOfExits());
             System.out.println("walls : "+graph.getNumberOfWalls());
+            System.out.println("edges : "+graph.getNumberOfEdges());
         }
 
     }
