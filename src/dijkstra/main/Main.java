@@ -1,10 +1,14 @@
+package dijkstra.main;
+
+import javax.swing.SwingUtilities;
+
 import dijkstra.graph.Graph;
 import dijkstra.parser.FileParser;
+import engine2D.GameWindow;
 
 public class Main {
 
     public static void main(String[] args) {
-//        new SimulControler();
         String testfile = "test.txt";
 
         if(FileParser.isParseable(testfile)){
@@ -17,7 +21,14 @@ public class Main {
             System.out.println("exits : "+graph.getNumberOfExits());
             System.out.println("walls : "+graph.getNumberOfWalls());
             System.out.println("edges : "+graph.getNumberOfEdges());
+            
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    GameWindow sk = new GameWindow(graph);
+                    sk.setVisible(true);
+                }
+            });
         }
-
     }
 }

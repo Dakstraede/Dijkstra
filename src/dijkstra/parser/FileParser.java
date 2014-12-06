@@ -1,13 +1,15 @@
 package dijkstra.parser;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Vector;
+
 import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
-
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Created by Alex on 06/11/2014.

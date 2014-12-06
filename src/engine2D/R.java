@@ -9,11 +9,6 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-/**
- * Resources Manager
- * @author egor
- *
- */
 public class R {
 	
 	private static String imgPath = "resources" + File.separator + "tiles" + File.separator;
