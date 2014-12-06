@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import dijkstra.graph.Node;
+
 public class R {
 	
 	private static String imgPath = "resources" + File.separator + "tiles" + File.separator;
@@ -16,19 +18,19 @@ public class R {
 	private static HashMap<String, BufferedImage> imageMap = new HashMap<>();
 	private static HashMap<String, TexturePaint> textureMap = new HashMap<>();
 	
-	public final static int H = 26;
-	public final static int W = 26;
+	public final static int height = 26;
+	public final static int weight = 26;
 	
 	// Singleton
 	private R() {}
 	
 	private static String[] imagesNames = {
-		"cheese",
-		"door",
-		"empty",
-		"grass",
-		"sandshrew",
-		"wall"
+		Node.CHEESE,
+		Node.DOOR,
+		Node.GROUND,
+		Node.GRASS,
+		Node.SANDSHREW,
+		Node.WALL
 	};
 	
 	public static void load() throws IOException {
@@ -45,7 +47,7 @@ public class R {
 	}
 	
 	private static void initTextures(String key, BufferedImage img) {
-		textureMap.put(key, new TexturePaint(img, new Rectangle(0, 0, W, H)));
+		textureMap.put(key, new TexturePaint(img, new Rectangle(0, 0, weight, height)));
 	}
 	
 	public static TexturePaint getTexture(String key) {

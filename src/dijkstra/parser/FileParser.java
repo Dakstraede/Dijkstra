@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import dijkstra.graph.Edge;
@@ -194,5 +195,34 @@ public class FileParser {
         }
 
         return wallFound;
+    }
+    
+    public static ArrayList<ArrayList<Node>> parseIn2dTable(String path) throws IOException {
+    	BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));;
+    	ArrayList<ArrayList<Node>> table2d = new ArrayList<ArrayList<Node>>();
+    	String line;
+    	int cLine = 0;
+    	while ((line = bufferedReader.readLine()) != null) {
+    		ArrayList<Node> tmp = new ArrayList<Node>();
+    		for (int i=0; i<line.length(); i++) {
+    			String type = getType(line.charAt(i));
+    			tmp.add(new Node(0, type, i, cLine));
+    			//System.out.print("" + line.charAt(i));
+    		}
+    		//System.out.println("");
+    		table2d.add(tmp);
+    		cLine++;
+    	}
+    	return table2d;
+    }
+    
+    private static String getType(char s) {
+    	switch (s) {
+	        case '*': return Node.WALL;
+	        case 'G': return Node.GRASS;
+	        case 'D': return Node.DOOR;
+	        case 'A': return Node.CHEESE;
+	        default:return Node.GROUND;
+    	}
     }
 }
