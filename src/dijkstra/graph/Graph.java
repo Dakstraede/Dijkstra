@@ -17,6 +17,7 @@ public class Graph {
 	private HashMap<Integer, Node> walls;
 	
 	private ArrayList<Edge> edges;
+	private ArrayList<Node> nodes = new ArrayList<Node>();
 
     public Graph(int width, int height) {
 		super();
@@ -29,8 +30,27 @@ public class Graph {
 		this.height = height;
 		this.width = width;
 	}
+    
+    /**
+     * Ajoute un node au graph
+     * @param node
+     */
+    public void registerNode(Node node) {
+    	this.nodes.add(node);
+    }
+    
+    /**
+     * Enleve un node au graph
+     * @param id
+     */
+	public void unregisterNode(int id) {
+		// TODO inutile ?
+	}
 	
-
+	public ArrayList<Node> getNodes() {
+		return this.nodes;
+	}
+    
     public void addGround(Node node, int key){
 		this.grounds.put(key, node);
 	}
@@ -91,6 +111,10 @@ public class Graph {
 		return edges;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Graph [height=" + height + ", width=" + width + ", nodes.size="
+				+ nodes.size() + "]";
+	}
 }
 

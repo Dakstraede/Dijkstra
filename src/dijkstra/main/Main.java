@@ -15,7 +15,7 @@ public class Main {
 	private static ArrayList<ArrayList<Node>> background = null;
 	
     public static void main(String[] args) {
-        String testfile = "test.txt";
+        String testfile = "minimap.txt";
 
         if(FileParser.isParseable(testfile)){
             Graph graph = FileParser.parseFile(testfile);
@@ -26,10 +26,12 @@ public class Main {
             System.out.println("doors : "+graph.getNumberOfDoors());
             System.out.println("exits : "+graph.getNumberOfExits());
             System.out.println("walls : "+graph.getNumberOfWalls());
-            System.out.println("edges : "+graph.getNumberOfEdges());
             
             try {
             	background = FileParser.parseIn2dTable(testfile);
+            	Graph newGraph = FileParser.generateGraph(background);
+            	System.out.println(newGraph.getNodes().size());
+            	
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -41,6 +43,8 @@ public class Main {
                     sk.setVisible(true);
                 }
             });
+        } else {
+        	System.out.println("Invalide Map");
         }
     }
 }

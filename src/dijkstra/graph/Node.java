@@ -1,5 +1,7 @@
 package dijkstra.graph;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Alex on 05/11/2014.
@@ -18,10 +20,36 @@ public class Node {
 	public String type = null;
 	private boolean isOccuped = false;
 	
+	/**
+	 * Liste de edges
+	 */
+	private ArrayList<Edge> edges = new ArrayList<>();
+	
 	public Node(int id, String type) {
 		super();
 		this.id = id;
 		this.type = type;
+	}
+	/**
+	 * Permet de rajouter un edge, verifie si il n'est pas deja present
+	 * @param other
+	 */
+	public void addEdge(Node other) {
+		Edge edge = new Edge(other); // On crée un edge
+		boolean isExist = false; // Sert a savoir si le neud existe deja dans la liste
+		for (Edge e : edges) {
+			if (e.getOther().equals(other)) {
+				isExist = true;
+			}
+		}
+		// Si le neud n'est pas dans la liste on l'ajoute
+		if(isExist == false) {
+			edges.add(edge);
+		}
+	}
+	
+	public ArrayList<Edge> getEdges() {
+		return this.edges;
 	}
 
 	public Node(int id, String type, int coordX, int coordY) {
@@ -75,7 +103,8 @@ public class Node {
 	@Override
 	public String toString() {
 		return "Node [id=" + id + ", coordX=" + coordX + ", coordY=" + coordY
-				+ ", type=" + type + ", isOccuped=" + isOccuped + "]";
+				+ ", type=" + type + ", isOccuped=" + isOccuped + " edges.size=" + edges.size() + "]"
+				;
 	}
 	
 }

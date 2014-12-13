@@ -202,11 +202,12 @@ public class FileParser {
     	ArrayList<ArrayList<Node>> table2d = new ArrayList<ArrayList<Node>>();
     	String line;
     	int cLine = 0;
+    	int id = 1;
     	while ((line = bufferedReader.readLine()) != null) {
     		ArrayList<Node> tmp = new ArrayList<Node>();
     		for (int i=0; i<line.length(); i++) {
     			String type = getType(line.charAt(i));
-    			tmp.add(new Node(0, type, i, cLine));
+    			tmp.add(new Node(id++, type, i, cLine));
     			//System.out.print("" + line.charAt(i));
     		}
     		//System.out.println("");
@@ -222,7 +223,52 @@ public class FileParser {
 	        case 'G': return Node.GRASS;
 	        case 'D': return Node.DOOR;
 	        case 'A': return Node.CHEESE;
-	        default:return Node.GROUND;
+	        default : return Node.GROUND;
     	}
+    }
+    
+    private static Node getNode(ArrayList<ArrayList<Node>> table, int row, int col) {
+    	if ((row>0) && (col>0) && (row<table.size()) && (col<table.get(row).size())) {
+    		if (table.get(row).get(col).type.equals(Node.WALL)) {
+    			return null;
+    		} else {
+    			return table.get(row).get(col);
+    		}
+    	} else {
+    		return null;
+    	}
+	}
+    
+    public static Graph generateGraph(ArrayList<ArrayList<Node>> table) {
+    	Graph graph = new Graph(table.get(0).size(), table.size());
+    	System.out.println(graph);
+    	for (int row=0; row<table.size(); row++) {
+    		for (int col=0; col<table.get(row).size(); col++) {
+    			if (! table.get(row).get(col).type.equals(Node.WALL)) {
+    				Node current = getNode(table, row, col);
+    				System.out.println("Search Around " + current);
+    				final int[][] arounds = {
+    						{-1, -1}, // Nord-Ouest
+    						{-1,  0}, // Nord
+    						{-1,  1}, // Nord-Est
+    						{ 0, -1}, // Ouest
+    						{ 0,  1}, // Est
+    						{ 1, -1}, // Sud-Ouest
+    						{ 1,  0}, // Sud
+    						{ 1,  1}  // Sud-Est
+    				};
+    				for (int i=0; i<arounds.length; i++) {
+    					Node aroundNode = getNode(table, row + arounds[i][0], col + arounds[i][1]);
+    					if (aroundNode != null) {
+    						System.out.println("\t" + aroundNode);
+    						current.addEdge(aroundNode);
+    					}	
+    				}
+    				graph.registerNode(current);
+    				System.out.println("End " + current);
+    			}
+    		}
+    	}
+    	return graph;
     }
 }
