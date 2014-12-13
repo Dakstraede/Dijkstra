@@ -54,8 +54,8 @@ public class GamePanel extends JPanel {
 				g2d.setPaint(R.getTexture(node.type));
 				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 				// Debug
-				g2d.setColor(Color.WHITE);
-				g2d.drawString(node.getId() + "", node.getCoordX() * R.height, node.getCoordY() * R.width + 10);
+				//g2d.setColor(Color.WHITE);
+				//g2d.drawString(node.getId() + "", node.getCoordX() * R.height, node.getCoordY() * R.width + 10);
 			}
 		}
     	if (this.souris != null) {

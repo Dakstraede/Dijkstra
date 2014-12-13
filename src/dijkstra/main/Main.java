@@ -14,7 +14,7 @@ public class Main {
 	private static ArrayList<ArrayList<Node>> background = null;
 	
     public static void main(String[] args) {
-        String testfile = "minimap.txt";
+        String testfile = "test.txt";
         FileParser parser = new FileParser();
         
         if(FileParser.isParseable(testfile)){  

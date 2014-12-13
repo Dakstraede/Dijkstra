@@ -18,7 +18,6 @@ public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private boolean run = false;
 	
 	private JButton start = new JButton("Start");
 	
@@ -56,7 +55,6 @@ public class GameWindow extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			run = true;
 			gameThread.start();
 		}
 	};
@@ -67,7 +65,6 @@ public class GameWindow extends JFrame {
 		public void run() {
 			graph.computePaths(graph.getDoor());
 			List<Node> path = graph.getShortestPathTo(graph.getCheese());
-			//gamePanel.update(graph);
 			for (Node n: path) {
 				try {
 					Thread.sleep(500);
