@@ -18,38 +18,65 @@ public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
+	private boolean run = false;
+	
 	private JButton start = new JButton("Start");
 	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
 	
+	private JPanel controlPanel = new JPanel();
+    private GamePanel gamePanel = null;
+	
 	public GameWindow(Graph graph, ArrayList<ArrayList<Node>> background) {
 		this.graph = graph;
 		this.background = background;
         setTitle("Simple Java 2D example");
-        
-        JPanel controlPanel = new JPanel();
-        controlPanel.add(start);
+        this.init();
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+	
+	private void init() {
+		controlPanel.add(start);
         
         try {
-			add(new GamePanel(this.graph, this.background), BorderLayout.NORTH);
+        	gamePanel = new GamePanel(this.graph, this.background);
+			add(gamePanel, BorderLayout.NORTH);
 			add(controlPanel, BorderLayout.SOUTH);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
         
-        start.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				graph.computePaths(graph.getDoor());
-				System.out.println(graph);
+        start.addActionListener(startListener);
+	}
+	
+	private ActionListener startListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			run = true;
+			gameThread.start();
+		}
+	};
+	
+	private Thread gameThread = new Thread(new Runnable() {
+		
+		@Override
+		public void run() {
+			graph.computePaths(graph.getDoor());
+			List<Node> path = graph.getShortestPathTo(graph.getCheese());
+			//gamePanel.update(graph);
+			for (Node n: path) {
+				try {
+					Thread.sleep(500);
+					gamePanel.update(n);
+				} catch (InterruptedException e) {
+					run = false;
+				}
 			}
-		});
-        
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-    }
+		}
+	});
 }
 

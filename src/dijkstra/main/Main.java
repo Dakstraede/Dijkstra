@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
-import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
 import dijkstra.parser.FileParser;
 import engine2D.GameWindow;

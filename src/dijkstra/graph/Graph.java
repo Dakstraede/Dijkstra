@@ -131,10 +131,8 @@ public class Graph {
 	public void computePaths(Node source) {
 		PriorityQueue<Node> nodeQueue = new PriorityQueue<>();
 		nodeQueue.add(source);
-		
 		while (! nodeQueue.isEmpty()) {
 			Node current = nodeQueue.poll();
-			
 			
 			for (Edge edge: current.getEdges()) {
 				Node next = edge.getOther();
@@ -150,13 +148,17 @@ public class Graph {
 			}
 			//System.out.println(current);
 		}
+		source.previous = null;
 	}
 	
-	public static List<Node> getShortestPathTo(Node target)
-    {
+	public List<Node> getShortestPathTo(Node target) {
         List<Node> path = new ArrayList<>();
-        for (Node node = target; node != null; node = node.previous)
-            path.add(node);
+        Node node = target;
+        while (node != null) {
+        	//System.out.println(node);
+        	path.add(node);
+        	node = node.previous;
+        } 
         Collections.reverse(path);
         return path;
     }

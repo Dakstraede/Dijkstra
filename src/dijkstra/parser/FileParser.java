@@ -210,12 +210,13 @@ public class FileParser {
     		for (int i=0; i<line.length(); i++) {
     			String type = getType(line.charAt(i));
     			tmp.add(new Node(id++, type, i, cLine));
-    			//System.out.print("" + line.charAt(i));
+    			System.out.print("" + line.charAt(i));
     		}
-    		//System.out.println("");
+    		System.out.println("");
     		table2d.add(tmp);
     		cLine++;
     	}
+    	if (bufferedReader != null) bufferedReader.close();
     	return table2d;
     }
     
@@ -242,14 +243,15 @@ public class FileParser {
 	}
     
     private final int[][] arounds = {
-			{-1, -1, 2}, // Nord-Ouest
+    	// row, col, weight
+			//{-1, -1, 2}, // Nord-Ouest
 			{-1,  0, 1}, // Nord
-			{-1,  1, 2}, // Nord-Est
+			//{-1,  1, 2}, // Nord-Est
 			{ 0, -1, 1}, // Ouest
 			{ 0,  1, 1}, // Est
-			{ 1, -1, 2}, // Sud-Ouest
+			//{ 1, -1, 2}, // Sud-Ouest
 			{ 1,  0, 1}, // Sud
-			{ 1,  1, 2}  // Sud-Est
+			//{ 1,  1, 2}  // Sud-Est
 	};
     
     private Graph graph = null;

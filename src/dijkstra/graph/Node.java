@@ -105,7 +105,12 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder("Node [id=" + id + ", xy=" + coordX + "," + coordY + ", type=" + type + ", minDistance=" + minDistance + ", edges={\n");
+		StringBuilder str = new StringBuilder("Node [" + id);
+		str.append(", xy=" + coordX + "," + coordY);
+		str.append(", " + type);
+		str.append(", min=" + minDistance);
+		str.append(", prev=" + ((previous != null)? previous.getId() : "null") );
+		str.append(", edges={\n");
 		for (Edge edge : edges) {
 			str.append("\t\t" + edge.toString() + "\n");
 		}
