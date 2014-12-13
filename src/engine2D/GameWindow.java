@@ -66,26 +66,27 @@ public class GameWindow extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Thread gameThread = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					graph.computePaths(graph.getDoor());
+					List<Node> path = graph.getShortestPathTo(graph.getCheese());
+					start.setEnabled(false);
+					for (Node n: path) {
+						try {
+							Thread.sleep(speedSlider.getValue());
+							gamePanel.update(n);
+						} catch (InterruptedException e) {
+							
+						}
+					}
+					start.setEnabled(true);
+				}
+			});
 			gameThread.start();
 		}
 	};
-	
-	private Thread gameThread = new Thread(new Runnable() {
-		
-		@Override
-		public void run() {
-			graph.computePaths(graph.getDoor());
-			List<Node> path = graph.getShortestPathTo(graph.getCheese());
-			for (Node n: path) {
-				try {
-					Thread.sleep(speedSlider.getValue());
-					gamePanel.update(n);
-				} catch (InterruptedException e) {
-					
-				}
-			}
-		}
-	});
 	
 	private ChangeListener speedChangeListener = new ChangeListener() {
 		@Override
