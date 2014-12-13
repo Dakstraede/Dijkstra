@@ -11,7 +11,6 @@ import java.util.Vector;
 import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
-import engine2D.R;
 
 /**
  * Created by Alex on 06/11/2014.
@@ -264,7 +263,7 @@ public class FileParser {
     
     private Graph generateGraph() {
     	Graph graph = new Graph(table2d.get(0).size(), table2d.size());
-    	System.out.println(graph);
+    	//System.out.println(graph);
     	for (int row=0; row<table2d.size(); row++) {
     		for (int col=0; col<table2d.get(row).size(); col++) {
     			if (! table2d.get(row).get(col).type.equals(Node.WALL)) {

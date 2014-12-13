@@ -1,7 +1,9 @@
 package dijkstra.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
 
 /**
@@ -133,10 +135,12 @@ public class Graph {
 		while (! nodeQueue.isEmpty()) {
 			Node current = nodeQueue.poll();
 			
+			
 			for (Edge edge: current.getEdges()) {
 				Node next = edge.getOther();
+				//System.out.println(next);
 				double weight = edge.getWeight();
-				double distance = current.minDistance + weight;
+				double distance = (current.minDistance == Double.POSITIVE_INFINITY) ? weight : current.minDistance + weight;
 				if (distance < next.minDistance) {
 					nodeQueue.remove(next);
 					next.minDistance = distance;
@@ -144,8 +148,18 @@ public class Graph {
 					nodeQueue.add(next);
 				}
 			}
+			//System.out.println(current);
 		}
 	}
+	
+	public static List<Node> getShortestPathTo(Node target)
+    {
+        List<Node> path = new ArrayList<>();
+        for (Node node = target; node != null; node = node.previous)
+            path.add(node);
+        Collections.reverse(path);
+        return path;
+    }
 	
 	public Node getDoor() {
 		Node door = null;
@@ -155,6 +169,16 @@ public class Graph {
 			}
 		}
 		return door;
+	}
+	
+	public Node getCheese() {
+		Node cheese = null;
+		for (Node node : nodes) {
+			if (node.type.equals(Node.CHEESE)) {
+				cheese = node;
+			}
+		}
+		return cheese;
 	}
 }
 

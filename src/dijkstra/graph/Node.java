@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Alex on 05/11/2014.
  */
-public class Node {
+public class Node implements Comparable<Node> {
 	
 	public static final String GROUND = "ground";
 	public static final String GRASS = "grass";
@@ -105,12 +105,17 @@ public class Node {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder("Node [id=" + id + ", type=" + type + ", minDistance=" + minDistance + ", edges={\n");
+		StringBuilder str = new StringBuilder("Node [id=" + id + ", xy=" + coordX + "," + coordY + ", type=" + type + ", minDistance=" + minDistance + ", edges={\n");
 		for (Edge edge : edges) {
 			str.append("\t\t" + edge.toString() + "\n");
 		}
 		str.append("}]");
 		return str.toString();
+	}
+	
+	@Override
+	public int compareTo(Node o) {
+		return Double.compare(minDistance, o.minDistance);
 	}
 	
 }

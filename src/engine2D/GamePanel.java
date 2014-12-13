@@ -23,7 +23,7 @@ public class GamePanel extends JPanel {
 		this.graph = graph;
 		this.background = background;
 		R.load();
-		System.out.println(this.graph);
+		//System.out.println(this.graph);
 		setPreferredSize(new Dimension(this.graph.getWidth() * R.width, this.graph.getHeight() * R.height));
 	}
 	
