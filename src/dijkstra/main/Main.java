@@ -17,7 +17,7 @@ public class Main {
         String testfile = "test.txt";
         FileParser parser = new FileParser();
         
-        if(FileParser.isParseable(testfile)){  
+        if(parser.isParseable(testfile)){  
             try {
             	background = parser.parseIn2dTable(testfile);
             	

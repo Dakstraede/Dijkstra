@@ -1,12 +1,10 @@
 package engine2D;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -20,7 +18,6 @@ public class GamePanel extends JPanel {
 	private Graph graph = null;
 	
 	private ArrayList<ArrayList<Node>> background = null;
-	private List<Node> path = null;
 	
 	public GamePanel(Graph graph, ArrayList<ArrayList<Node>> background) throws IOException {
 		this.graph = graph;

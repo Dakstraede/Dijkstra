@@ -21,6 +21,8 @@ public class R {
 	public final static int width = 26;
 	public final static int height = 26;
 	
+	public static int fps = 500;
+	
 	// Singleton
 	private R() {}
 	
