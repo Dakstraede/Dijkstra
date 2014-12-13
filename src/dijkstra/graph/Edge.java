@@ -12,8 +12,9 @@ public class Edge {
 	 * 1 = ligne droite
 	 * 2 = ligne diagonale (Si on gère les diagonales ?)
 	 */
-	private int weight;
+	private double weight;
 	private Node other = null;
+	
 	
 	public Edge(Node other) {
 		this.other = other;
@@ -23,18 +24,14 @@ public class Edge {
 		return this.other;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 	
 	private int firstNode;
 	private int secondNode;
 	
-	
-	
-	
-
-	public void setWeight(int weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 
@@ -46,5 +43,9 @@ public class Edge {
 		return secondNode;
 	}
 
+	@Override
+	public String toString() {
+		return "Edge [weight=" + weight + ", nodeId=" + other.getId() + "]";
+	}
 
 }

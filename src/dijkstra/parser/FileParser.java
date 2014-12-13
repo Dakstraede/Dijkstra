@@ -11,6 +11,7 @@ import java.util.Vector;
 import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
+import engine2D.R;
 
 /**
  * Created by Alex on 06/11/2014.
@@ -197,9 +198,11 @@ public class FileParser {
         return wallFound;
     }
     
-    public static ArrayList<ArrayList<Node>> parseIn2dTable(String path) throws IOException {
+    
+    private ArrayList<ArrayList<Node>> table2d = new ArrayList<ArrayList<Node>>();
+    
+    public ArrayList<ArrayList<Node>> parseIn2dTable(String path) throws IOException {
     	BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));;
-    	ArrayList<ArrayList<Node>> table2d = new ArrayList<ArrayList<Node>>();
     	String line;
     	int cLine = 0;
     	int id = 1;
@@ -217,7 +220,7 @@ public class FileParser {
     	return table2d;
     }
     
-    private static String getType(char s) {
+    private String getType(char s) {
     	switch (s) {
 	        case '*': return Node.WALL;
 	        case 'G': return Node.GRASS;
@@ -227,45 +230,55 @@ public class FileParser {
     	}
     }
     
-    private static Node getNode(ArrayList<ArrayList<Node>> table, int row, int col) {
-    	if ((row>0) && (col>0) && (row<table.size()) && (col<table.get(row).size())) {
-    		if (table.get(row).get(col).type.equals(Node.WALL)) {
+    private Node getNode(int row, int col) {
+    	if ((row>0) && (col>0) && (row<table2d.size()) && (col<table2d.get(row).size())) {
+    		if (table2d.get(row).get(col).type.equals(Node.WALL)) {
     			return null;
     		} else {
-    			return table.get(row).get(col);
+    			return table2d.get(row).get(col);
     		}
     	} else {
     		return null;
     	}
 	}
     
-    public static Graph generateGraph(ArrayList<ArrayList<Node>> table) {
-    	Graph graph = new Graph(table.get(0).size(), table.size());
+    private final int[][] arounds = {
+			{-1, -1, 2}, // Nord-Ouest
+			{-1,  0, 1}, // Nord
+			{-1,  1, 2}, // Nord-Est
+			{ 0, -1, 1}, // Ouest
+			{ 0,  1, 1}, // Est
+			{ 1, -1, 2}, // Sud-Ouest
+			{ 1,  0, 1}, // Sud
+			{ 1,  1, 2}  // Sud-Est
+	};
+    
+    private Graph graph = null;
+    
+    public Graph getGraph() {
+    	if (graph == null) {
+    		graph = generateGraph();
+    	}
+    	return graph;
+    }
+    
+    private Graph generateGraph() {
+    	Graph graph = new Graph(table2d.get(0).size(), table2d.size());
     	System.out.println(graph);
-    	for (int row=0; row<table.size(); row++) {
-    		for (int col=0; col<table.get(row).size(); col++) {
-    			if (! table.get(row).get(col).type.equals(Node.WALL)) {
-    				Node current = getNode(table, row, col);
-    				System.out.println("Search Around " + current);
-    				final int[][] arounds = {
-    						{-1, -1}, // Nord-Ouest
-    						{-1,  0}, // Nord
-    						{-1,  1}, // Nord-Est
-    						{ 0, -1}, // Ouest
-    						{ 0,  1}, // Est
-    						{ 1, -1}, // Sud-Ouest
-    						{ 1,  0}, // Sud
-    						{ 1,  1}  // Sud-Est
-    				};
+    	for (int row=0; row<table2d.size(); row++) {
+    		for (int col=0; col<table2d.get(row).size(); col++) {
+    			if (! table2d.get(row).get(col).type.equals(Node.WALL)) {
+    				Node current = getNode(row, col);
+    				//System.out.println("Search Around " + current);
     				for (int i=0; i<arounds.length; i++) {
-    					Node aroundNode = getNode(table, row + arounds[i][0], col + arounds[i][1]);
+    					Node aroundNode = getNode(row + arounds[i][0], col + arounds[i][1]);
     					if (aroundNode != null) {
-    						System.out.println("\t" + aroundNode);
-    						current.addEdge(aroundNode);
+    						//System.out.println("\t" + aroundNode);
+    						current.addEdge(aroundNode, arounds[i][2]);
     					}	
     				}
     				graph.registerNode(current);
-    				System.out.println("End " + current);
+    				//System.out.println("End " + current);
     			}
     		}
     	}

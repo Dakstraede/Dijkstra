@@ -23,8 +23,8 @@ public class GamePanel extends JPanel {
 		this.graph = graph;
 		this.background = background;
 		R.load();
-		System.out.println(graph.getWidth() + ":" + graph.getHeight());
-		setPreferredSize(new Dimension(graph.getWidth() * R.weight, graph.getHeight() * R.height));
+		System.out.println(this.graph);
+		setPreferredSize(new Dimension(this.graph.getWidth() * R.width, this.graph.getHeight() * R.height));
 	}
 	
 	private void doDrawing(Graphics g) {
@@ -43,10 +43,10 @@ public class GamePanel extends JPanel {
 			for (Node node: row) {
 				if (node.type.equals(Node.CHEESE) || node.type.equals(Node.DOOR)) {
 					g2d.setPaint(R.getTexture(Node.GROUND));
-					g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.weight, R.weight, R.height);
+					g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 				}
 				g2d.setPaint(R.getTexture(node.type));
-				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.weight, R.weight, R.height);
+				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 			}
 		}
     }

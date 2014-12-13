@@ -16,21 +16,11 @@ public class Main {
 	
     public static void main(String[] args) {
         String testfile = "minimap.txt";
-
-        if(FileParser.isParseable(testfile)){
-            Graph graph = FileParser.parseFile(testfile);
-            System.out.println("height : "+graph.getHeight());
-            System.out.println("width : "+graph.getWidth());
-            System.out.println("ground : "+graph.getNumberOfGrounds());
-            System.out.println("grass : "+graph.getNumberOfGrass());
-            System.out.println("doors : "+graph.getNumberOfDoors());
-            System.out.println("exits : "+graph.getNumberOfExits());
-            System.out.println("walls : "+graph.getNumberOfWalls());
-            
+        FileParser parser = new FileParser();
+        
+        if(FileParser.isParseable(testfile)){  
             try {
-            	background = FileParser.parseIn2dTable(testfile);
-            	Graph newGraph = FileParser.generateGraph(background);
-            	System.out.println(newGraph.getNodes().size());
+            	background = parser.parseIn2dTable(testfile);
             	
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -39,7 +29,7 @@ public class Main {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    GameWindow sk = new GameWindow(graph, background);
+                    GameWindow sk = new GameWindow(parser.getGraph(), background);
                     sk.setVisible(true);
                 }
             });

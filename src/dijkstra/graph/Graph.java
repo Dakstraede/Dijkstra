@@ -2,6 +2,7 @@ package dijkstra.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 /**
  * Created by Alex on 06/11/2014.
@@ -113,8 +114,47 @@ public class Graph {
 
 	@Override
 	public String toString() {
-		return "Graph [height=" + height + ", width=" + width + ", nodes.size="
-				+ nodes.size() + "]";
+		StringBuilder str = new StringBuilder("Graph [height=" + height + ", width=" + width + ", nodes.size=" + nodes.size() + " nodes{\n");
+		for (Node node : nodes) {
+			str.append("\t" + node + "\n");
+		}
+		str.append("}]");
+		return str.toString();
+	}
+	
+	/**
+	 * Dijkstra
+	 * @param source
+	 */
+	public void computePaths(Node source) {
+		PriorityQueue<Node> nodeQueue = new PriorityQueue<>();
+		nodeQueue.add(source);
+		
+		while (! nodeQueue.isEmpty()) {
+			Node current = nodeQueue.poll();
+			
+			for (Edge edge: current.getEdges()) {
+				Node next = edge.getOther();
+				double weight = edge.getWeight();
+				double distance = current.minDistance + weight;
+				if (distance < next.minDistance) {
+					nodeQueue.remove(next);
+					next.minDistance = distance;
+					next.previous = current;
+					nodeQueue.add(next);
+				}
+			}
+		}
+	}
+	
+	public Node getDoor() {
+		Node door = null;
+		for (Node node : nodes) {
+			if (node.type.equals(Node.DOOR)) {
+				door = node;
+			}
+		}
+		return door;
 	}
 }
 

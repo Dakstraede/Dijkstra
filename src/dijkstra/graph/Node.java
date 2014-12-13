@@ -19,6 +19,8 @@ public class Node {
 	private int coordX, coordY;
 	public String type = null;
 	private boolean isOccuped = false;
+	public double minDistance = Double.POSITIVE_INFINITY;
+	public Node previous = null;
 	
 	/**
 	 * Liste de edges
@@ -34,7 +36,7 @@ public class Node {
 	 * Permet de rajouter un edge, verifie si il n'est pas deja present
 	 * @param other
 	 */
-	public void addEdge(Node other) {
+	public void addEdge(Node other, int weight) {
 		Edge edge = new Edge(other); // On crée un edge
 		boolean isExist = false; // Sert a savoir si le neud existe deja dans la liste
 		for (Edge e : edges) {
@@ -44,6 +46,7 @@ public class Node {
 		}
 		// Si le neud n'est pas dans la liste on l'ajoute
 		if(isExist == false) {
+			edge.setWeight(weight);
 			edges.add(edge);
 		}
 	}
@@ -102,9 +105,12 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "Node [id=" + id + ", coordX=" + coordX + ", coordY=" + coordY
-				+ ", type=" + type + ", isOccuped=" + isOccuped + " edges.size=" + edges.size() + "]"
-				;
+		StringBuilder str = new StringBuilder("Node [id=" + id + ", type=" + type + ", minDistance=" + minDistance + ", edges={\n");
+		for (Edge edge : edges) {
+			str.append("\t\t" + edge.toString() + "\n");
+		}
+		str.append("}]");
+		return str.toString();
 	}
 	
 }
