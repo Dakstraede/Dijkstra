@@ -36,11 +36,14 @@ public class GameWindow extends JFrame {
 	private JLabel movementMouseLabel = new JLabel("Movement mouse=" + 0);
 	private JLabel mousesNotHungryLabel = new JLabel("Mouses not hungry=" + 0);
 	
+	private int totalMouvements = 0;
+	private JLabel totalMouvementsLabel = new JLabel("Total Mouvements=" + totalMouvements);
+	
 	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
 	
-	private JPanel infoPanel = new JPanel(new GridLayout(0, 3));
+	private JPanel infoPanel = new JPanel(new GridLayout(0, 4));
 	private JPanel controlPanel = new JPanel();
     private GamePanel gamePanel = null;
     private final static int TOTAL_MOUSE = 20;
@@ -84,6 +87,7 @@ public class GameWindow extends JFrame {
 		controlPanel.add(start);
 		infoPanel.add(movementMouseLabel);
 		infoPanel.add(mousesNotHungryLabel);
+		infoPanel.add(totalMouvementsLabel);
         
         try {
         	gamePanel = new GamePanel(this.graph, this.background);
@@ -174,8 +178,7 @@ public class GameWindow extends JFrame {
 						removeSouris(deleteSouris);
 					} // while
 					
-					movementMouseLabel.setText("Movement mouse=" + getNbMovementMouse());
-					mousesNotHungryLabel.setText("Mouses not hungry=" + getMousesNotHungry());
+					updateInfo(tour);
 					gamePanel.updateSouris(mouseListDoor1);
 					start.setEnabled(true);
 				}
@@ -193,7 +196,8 @@ public class GameWindow extends JFrame {
 	 */
 	private void updateInfo(int tour) {
 		movementMouseLabel.setText("Movement mouse=" + getNbMovementMouse());
-		mousesNotHungryLabel.setText("Mouses not hungry=" + getMousesNotHungry());
+		mousesNotHungryLabel.setText("Mouses not hungry=" + nbNotHungryLabelMouses);
+		totalMouvementsLabel.setText("Total Mouvements=" + totalMouvements);
 		tourLabel.setText("Turn=" + tour);
 	}
 	
@@ -214,6 +218,7 @@ public class GameWindow extends JFrame {
 			if (souris.getPosition().type.equals(Node.CHEESE)) {
 				deleteSouris.add(souris);
 				nbNotHungryLabelMouses++;
+				totalMouvements += souris.getSteps();
 			}
 		}
 	}
@@ -283,9 +288,4 @@ public class GameWindow extends JFrame {
 		}
 		return res;
 	}
-	
-	private int getMousesNotHungry() {
-		return nbNotHungryLabelMouses;
-	}
 }
-

@@ -6,6 +6,16 @@ public class Mouse {
 	
 	private int id;
 	
+	private int steps = 0;
+	
+	public int getSteps() {
+		return steps;
+	}
+
+	public void setSteps(int steps) {
+		this.steps = steps;
+	}
+
 	public Mouse(int id) {
 		this.id = id;
 	}
@@ -31,6 +41,7 @@ public class Mouse {
 		if (next.isOccuped() == false) {
 			if (position != null) position.setOccupation(false);
 			position = next;
+			steps++;
 			if (! position.type.equals(Node.CHEESE)) position.setOccupation(true);
 		}
 	}
