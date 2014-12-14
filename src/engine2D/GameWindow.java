@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 import javax.swing.JButton;
@@ -112,7 +111,6 @@ public class GameWindow extends JFrame {
 				@Override
 				public void run() {					
 					Node door = graph.getDoor().get(0);
-					Node cheese = graph.getCheese().get(0);
 					ArrayList<Souris> deleteSouris = new ArrayList<Souris>();
 					int tour = 1;
 					
@@ -122,11 +120,8 @@ public class GameWindow extends JFrame {
 						for (Souris souris: sourisList) {
 							// Recherche de chemin pour la souris
 							if (souris.getPosition() != null) {
-								GraphPath graphPath = getGraphPath(souris.getPosition());
-								gamePanel.updateSouris(sourisList);
-								
 								try {
-									souris.move(graphPath.getPath().get(1));
+									souris.move(getGraphPath(souris.getPosition()).getPath().get(1));
 								} catch (IndexOutOfBoundsException e) {
 									System.out.println("Stop");
 								}
@@ -145,6 +140,8 @@ public class GameWindow extends JFrame {
 									}
 								}
 							}
+							
+							gamePanel.updateSouris(sourisList);
 						}
 
 						// Ouf, on fait une pause ?
@@ -178,7 +175,6 @@ public class GameWindow extends JFrame {
 		for (Node cheese : graph.getCheese()) {
 			graph.computePaths(source);
 			graphPath = graph.getShortestPathTo(cheese);
-			System.out.println("getGraphPath = " + graphPath);
 			queueGraphPath.add(graphPath);
 		}
 		return queueGraphPath.poll();
