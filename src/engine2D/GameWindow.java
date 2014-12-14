@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -35,7 +34,7 @@ public class GameWindow extends JFrame {
 	
 	private JPanel controlPanel = new JPanel();
     private GamePanel gamePanel = null;
-    private int TOTAL_SOURIS = 4;
+    private int TOTAL_SOURIS = 20;
     
     private ArrayList<Souris> sourisList = new ArrayList<Souris>();
 	
@@ -106,7 +105,7 @@ public class GameWindow extends JFrame {
 					//while (tour <= 2) {
 					while(sourisList.size() > 0) {
 						System.out.println("TOUR " + tour);
-						removeSouris(deleteSouris);
+						
 						for (Souris souris: sourisList) {
 							System.out.println(souris);
 							// Recherche de chemin pour la souris
@@ -152,6 +151,7 @@ public class GameWindow extends JFrame {
 							e1.printStackTrace();
 						}
 						tour++;
+						removeSouris(deleteSouris);
 					} // while
 
 					// DEbug

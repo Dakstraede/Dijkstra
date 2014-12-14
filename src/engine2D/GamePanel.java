@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
 				g2d.setPaint(R.getTexture(node.type));
 				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 				// Debug
-				if (Main.DEBUG) {
+				if (Main.DEBUG_GRAPH) {
 					g2d.setColor(Color.WHITE);
 					g2d.drawString((int)node.minDistance + "", node.getCoordX() * R.height, node.getCoordY() * R.width + 10);
 				}
@@ -64,6 +64,10 @@ public class GamePanel extends JPanel {
 	    		if (souris.getPosition() != null) {
 	    			g2d.setPaint(R.getTexture(Node.SANDSHREW));
 					g2d.fillRect(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, R.width, R.height);
+					if (Main.DEBUG_SOURIS) {
+						g2d.setColor(Color.RED);
+						g2d.drawString(souris.getId() + "", souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width + 10);
+					}
 	    		}
 	    	}
     	}

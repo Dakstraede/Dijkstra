@@ -28,10 +28,10 @@ public class Souris {
 	}
 	
 	public void move(Node next) {
-		if (position != null) {
-			this.position.setOccupation(false);
+		if (next.isOccuped() == false) {
+			if (position != null) position.setOccupation(false);
+			position = next;
+			if (! position.type.equals(Node.CHEESE)) position.setOccupation(true);
 		}
-		this.position = next;
-		this.position.setOccupation(true);
 	}
 }
