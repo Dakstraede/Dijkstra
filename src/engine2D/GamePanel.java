@@ -27,7 +27,6 @@ public class GamePanel extends JPanel {
 		this.graph = graph;
 		this.background = background;
 		R.load();
-		//System.out.println(this.graph);
 		setPreferredSize(new Dimension(this.graph.getWidth() * R.width, this.graph.getHeight() * R.height));
 	}
 	
@@ -60,7 +59,6 @@ public class GamePanel extends JPanel {
 		}
     	if (sourisList != null) {
 	    	for (Souris souris : sourisList) {
-	    		//System.out.println(souris.getPosition());
 	    		if (souris.getPosition() != null) {
 	    			g2d.setPaint(R.getTexture(Node.SANDSHREW));
 					g2d.fillRect(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, R.width, R.height);

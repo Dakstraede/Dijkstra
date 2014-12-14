@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
-/**
- * Created by Alex on 06/11/2014.
- */
 public class Graph {
 
 	private int height, width;
@@ -69,7 +66,7 @@ public class Graph {
 			
 			for (Edge edge: current.getEdges()) {
 				Node next = edge.getOther();
-				double weight = (next.isOccuped() == true) ? 4 :   edge.getWeight();
+				double weight = (next.isOccuped() == true) ? 5 :   edge.getWeight();
 				double distance = (current.minDistance == Double.POSITIVE_INFINITY) ? weight : current.minDistance + weight;
 				if (distance < next.minDistance && (!next.type.equals(Node.DOOR))) {
 					nodeQueue.remove(next);
@@ -89,25 +86,26 @@ public class Graph {
 		}
 	}
 	
-	public List<Node> getShortestPathTo(Node target) {
+	public GraphPath getShortestPathTo(Node target) {
         List<Node> path = new ArrayList<>();
         Node node = target;
         while (node != null) {
         	path.add(node);
         	node = node.previous;
-        } 
+        }
+        System.out.println(path.get(0));
         Collections.reverse(path);
-        return path;
+        return new GraphPath(path.get(0).minDistance, path);
     }
 	
-	public Node getDoor() {
-		Node door = null;
+	public List<Node> getDoor() {
+		List<Node> doors = new ArrayList<>();
 		for (Node node : nodes) {
 			if (node.type.equals(Node.DOOR)) {
-				door = node;
+				doors.add(node);
 			}
 		}
-		return door;
+		return doors;
 	}
 	
 	public List<Node> getCheese() {

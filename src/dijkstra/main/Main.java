@@ -13,10 +13,10 @@ public class Main {
 	
 	private static ArrayList<ArrayList<Node>> background = null;
 	public static boolean DEBUG_GRAPH = false;
-	public static boolean DEBUG_SOURIS = true;
+	public static boolean DEBUG_SOURIS = false;
 	
     public static void main(String[] args) {
-        String testfile = "resources/map/map1.txt";
+        String testfile = "resources/map/map2.txt";
         FileParser parser = new FileParser();
         
         if(parser.isParseable(testfile)){  

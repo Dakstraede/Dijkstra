@@ -2,10 +2,6 @@ package dijkstra.graph;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by Alex on 05/11/2014.
- */
 public class Node implements Comparable<Node> {
 	
 	public static final String GROUND = "ground";
@@ -112,12 +108,12 @@ public class Node implements Comparable<Node> {
 		//str.append(", ocup=" + isOccuped);
 		str.append(", min=" + minDistance);
 		str.append(", prev=" + ((previous != null)? previous.getId() : "null") );
-		/*str.append(", edges={\n");
-		for (Edge edge : edges) {
-			str.append("\t\t" + edge.toString() + "\n");
-		}
-		str.append("}");
-		*/
+		//str.append(", edges={\n");
+		//for (Edge edge : edges) {
+			//str.append("\t\t" + edge.toString() + "\n");
+		//}
+		//str.append("}");
+		
 		str.append("]\n");
 		return str.toString();
 	}

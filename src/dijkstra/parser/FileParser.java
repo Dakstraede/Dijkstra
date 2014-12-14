@@ -11,10 +11,6 @@ import java.util.Vector;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
 
-/**
- * Created by Alex on 06/11/2014.
- */
-
 public class FileParser {
 	
 	private ArrayList<ArrayList<Node>> table2d = new ArrayList<ArrayList<Node>>();
@@ -83,12 +79,12 @@ public class FileParser {
     
     private Graph generateGraph() {
     	Graph graph = new Graph(table2d.get(0).size(), table2d.size());
-    	//System.out.println(graph);
+    	
     	for (int row=0; row<table2d.size(); row++) {
     		for (int col=0; col<table2d.get(row).size(); col++) {
     			if (! table2d.get(row).get(col).type.equals(Node.WALL)) {
     				Node current = getNode(row, col);
-    				//System.out.println("Search Around " + current);
+    				
     				for (int i=0; i<arounds.length; i++) {
     					Node aroundNode = getNode(row + arounds[i][0], col + arounds[i][1]);
     					if (aroundNode != null) {
@@ -98,14 +94,12 @@ public class FileParser {
     					}	
     				}
     				graph.registerNode(current);
-    				//System.out.println("End " + current);
     			}
     		}
     	}
     	return graph;
     }
 	
-   
     /**
      * Check whether the file is a valid field or not
      * The file is considered as invalid if :
