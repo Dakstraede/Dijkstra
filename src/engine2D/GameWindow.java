@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -28,6 +29,8 @@ public class GameWindow extends JFrame {
 	private JButton start = new JButton("Start");
 	private JLabel speedLabel = new JLabel("Speed=" + R.fps);
 	private JSlider speedSlider = null;
+	private JLabel tourLabel = new JLabel("Tour=0");
+	private JTextField nbSouris = new JTextField(3);
 	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
@@ -52,6 +55,12 @@ public class GameWindow extends JFrame {
 		controlPanel.add(speedLabel);
 		speedSlider = new JSlider(JSlider.VERTICAL, 100, 2000, R.fps);
 		speedSlider.setOrientation(JSlider.HORIZONTAL);
+		
+		nbSouris.setText(TOTAL_SOURIS + "");
+		
+		controlPanel.add(new JLabel("Souris="));
+		controlPanel.add(nbSouris);
+		controlPanel.add(tourLabel);
 		controlPanel.add(speedSlider);
 		controlPanel.add(start);
         
@@ -81,12 +90,22 @@ public class GameWindow extends JFrame {
 		return true;
 	}
 	
+	public int getTotalSouris() {
+		int total = TOTAL_SOURIS;
+		try {
+			total = Integer.parseInt(nbSouris.getText());
+		} catch (NumberFormatException  e) {
+			total = TOTAL_SOURIS;
+		}
+		return total;
+	}
+	
 	private ActionListener startListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			start.setEnabled(false);
-			initSouris(TOTAL_SOURIS);
+			initSouris(getTotalSouris());
 			
 			Thread gameThread = new Thread(new Runnable() {
 				
@@ -105,7 +124,7 @@ public class GameWindow extends JFrame {
 					//while (tour <= 2) {
 					while(sourisList.size() > 0) {
 						System.out.println("TOUR " + tour);
-						
+						tourLabel.setText("Tour=" + tour);
 						for (Souris souris: sourisList) {
 							System.out.println(souris);
 							// Recherche de chemin pour la souris
