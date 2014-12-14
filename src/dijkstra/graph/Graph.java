@@ -54,7 +54,8 @@ public class Graph {
 	}
 	
 	/**
-	 * Dijkstra
+	 * Algo Dijkstra, À partir du noeud source, il va donner à chaque noeud un poids 
+	 * ainsi qu'ajouter le noeud précèdent pour pouvoir remonter jusqu'à la source
 	 * @param source
 	 */
 	public void computePaths(Node source) {
@@ -79,6 +80,9 @@ public class Graph {
 		source.previous = null;
 	}
 	
+	/**
+	 * On remet à zéro le graphe pour pouvoirs recalculer les poids
+	 */
 	private void resetGraph() {
 		for (Node node : nodes) {
 			node.minDistance = Double.POSITIVE_INFINITY;
@@ -86,6 +90,11 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * On crée un chemin pour aller jusqu'à la cible
+	 * @param target
+	 * @return List des noeud
+	 */
 	public GraphPath getShortestPathTo(Node target) {
         List<Node> path = new ArrayList<>();
         Node node = target;
@@ -98,6 +107,10 @@ public class Graph {
         return res;
     }
 	
+	/**
+	 * On cherche les portes
+	 * @return Liste de portes
+	 */
 	public ArrayList<Node> getDoor() {
 		ArrayList<Node> doors = new ArrayList<>();
 		for (Node node : nodes) {
@@ -108,6 +121,10 @@ public class Graph {
 		return doors;
 	}
 	
+	/**
+	 * On cherche les Fromages
+	 * @return Liste de fromages
+	 */
 	public List<Node> getCheese() {
 		List<Node> cheeses = new ArrayList<>();
 		for (Node node : nodes) {

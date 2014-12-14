@@ -58,18 +58,25 @@ public class FileParser {
     	}
 	}
     
+    /**
+     * Valeur bizarre pour pouvoir aller sur les noeuds autour d'un autre noeud
+     */
     private final int[][] arounds = {
         	// row, col, weight
-    			//{-1, -1, 2}, // Nord-Ouest
-    			{-1,  0, 1}, // Nord
-    			//{-1,  1, 2}, // Nord-Est
-    			{ 0, -1, 1}, // Ouest
-    			{ 0,  1, 1}, // Est
-    			//{ 1, -1, 2}, // Sud-Ouest
-    			{ 1,  0, 1}, // Sud
-    			//{ 1,  1, 2}  // Sud-Est
+			//{-1, -1, 2}, // Nord-Ouest
+			{-1,  0, 1}, // Nord
+			//{-1,  1, 2}, // Nord-Est
+			{ 0, -1, 1}, // Ouest
+			{ 0,  1, 1}, // Est
+			//{ 1, -1, 2}, // Sud-Ouest
+			{ 1,  0, 1}, // Sud
+			//{ 1,  1, 2}  // Sud-Est
     	};
     
+    /**
+     * On récupère le graphe et s'il n'existe pas, on le génère
+     * @return Graph
+     */
     public Graph getGraph() {
     	if (graph == null) {
     		graph = generateGraph();
@@ -77,6 +84,10 @@ public class FileParser {
     	return graph;
     }
     
+    /**
+     * On génère le graphe à partir du tableau 2d en analysant pour chaque noeud les noeuds autour
+     * @return Graph
+     */
     private Graph generateGraph() {
     	Graph graph = new Graph(table2d.get(0).size(), table2d.size());
     	
