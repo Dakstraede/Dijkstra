@@ -1,8 +1,10 @@
 package dijkstra.main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -18,6 +20,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		String testfile = "resources/map/map1.txt";
+		
+		final JFileChooser fc = new JFileChooser(new File("resources/map"));
+		int returnVal = fc.showOpenDialog(null);
+		testfile = fc.getSelectedFile().getPath();
+		System.out.println(fc.getSelectedFile().getPath());
+		
 		FileParser parser = new FileParser();
 		try {
 			if (parser.isParseable(testfile)) {
