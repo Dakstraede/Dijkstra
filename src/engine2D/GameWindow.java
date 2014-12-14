@@ -15,8 +15,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
+import dijkstra.graph.Souris;
 
 public class GameWindow extends JFrame {
 
@@ -32,6 +34,9 @@ public class GameWindow extends JFrame {
 	
 	private JPanel controlPanel = new JPanel();
     private GamePanel gamePanel = null;
+    private int TOTAL_SOURIS = 4;
+    
+    private ArrayList<Souris> sourisList = new ArrayList<Souris>();
 	
 	public GameWindow(Graph graph, ArrayList<ArrayList<Node>> background) {
 		this.graph = graph;
@@ -62,16 +67,87 @@ public class GameWindow extends JFrame {
         speedSlider.addChangeListener(speedChangeListener);
 	}
 	
+	private void initSouris(int nb) {
+		for (int i=1; i<=nb; i++) {
+			sourisList.add(new Souris(i));
+		}
+	}
+	
 	private ActionListener startListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			start.setEnabled(false);
+			initSouris(TOTAL_SOURIS);
+			
 			Thread gameThread = new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
-					graph.computePaths(graph.getDoor());
-					List<Node> path = graph.getShortestPathTo(graph.getCheese());
+					int sourisArrived = 0;
+					
+					Node door = graph.getDoor();
+					Node cheese = graph.getCheese();
+					
+					int tour = 1;
+					// Tant qu'il reste des souris
+					while (TOTAL_SOURIS != sourisArrived) {
+					//while (tour <= 2) {
+						System.out.println("TOUR " + tour);
+						for (Souris souris: sourisList) {
+							
+							// Recherche de chemin pour la souris
+							if (souris.getPosition() != null) {
+								System.out.println(souris);
+								graph.computePaths(souris.getPosition());
+								List<Node> path = graph.getShortestPathTo(cheese);
+								System.out.println(path);
+								gamePanel.updateSouris(sourisList);
+								
+								try {
+									//System.out.println(path);
+									souris.move(path.get(1));
+								} catch (IndexOutOfBoundsException e) {
+									//System.out.println("Stop");
+								}
+								if (souris.getPosition().type.equals(Node.CHEESE)) {
+									sourisArrived++;
+									//sourisList.remove(souris);
+								}
+							}
+							
+							if (souris.getPosition() == null) {
+								// Si la position est null alors la souris n'est pas encore sortie de la porte
+								// Recherche de node libre pret de la porte
+								for (Edge e: door.getEdges()) {
+									Node maybeFreeNode = e.getOther();
+									if (maybeFreeNode.isOccuped() == false) {
+										//System.out.println(souris);
+										souris.move(maybeFreeNode);
+										//System.out.println(souris);
+									}
+								}
+							}
+						}
+
+						// Ouf, on fait une pause ?
+						try {
+							Thread.sleep(speedSlider.getValue()); 
+							} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+						tour++;
+					} // while
+
+					// DEbug
+					/*for (Souris souris: sourisList) {
+						System.out.println(souris);
+					}
+					*/
+					
+					
+					/*
+					List<Node> path = graph.getShortestPathTo(cheese);
 					start.setEnabled(false);
 					for (Node n: path) {
 						try {
@@ -81,6 +157,7 @@ public class GameWindow extends JFrame {
 							
 						}
 					}
+					*/
 					start.setEnabled(true);
 				}
 			});

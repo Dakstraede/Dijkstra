@@ -19,6 +19,7 @@ public class Node implements Comparable<Node> {
 	private int coordX, coordY;
 	public String type = null;
 	private boolean isOccuped = false;
+	public Souris souris = null;
 	public double minDistance = Double.POSITIVE_INFINITY;
 	public Node previous = null;
 	
@@ -106,15 +107,18 @@ public class Node implements Comparable<Node> {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder("Node [" + id);
-		str.append(", xy=" + coordX + "," + coordY);
-		str.append(", " + type);
+		//str.append(", xy=" + coordX + "," + coordY);
+		//str.append(", " + type);
+		//str.append(", ocup=" + isOccuped);
 		str.append(", min=" + minDistance);
 		str.append(", prev=" + ((previous != null)? previous.getId() : "null") );
-		str.append(", edges={\n");
+		/*str.append(", edges={\n");
 		for (Edge edge : edges) {
 			str.append("\t\t" + edge.toString() + "\n");
 		}
-		str.append("}]");
+		str.append("}");
+		*/
+		str.append("]\n");
 		return str.toString();
 	}
 	

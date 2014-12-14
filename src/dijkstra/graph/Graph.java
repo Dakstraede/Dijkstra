@@ -61,6 +61,7 @@ public class Graph {
 	 * @param source
 	 */
 	public void computePaths(Node source) {
+		resetGraph();
 		PriorityQueue<Node> nodeQueue = new PriorityQueue<>();
 		nodeQueue.add(source);
 		while (! nodeQueue.isEmpty()) {
@@ -68,26 +69,30 @@ public class Graph {
 			
 			for (Edge edge: current.getEdges()) {
 				Node next = edge.getOther();
-				//System.out.println(next);
 				double weight = edge.getWeight();
 				double distance = (current.minDistance == Double.POSITIVE_INFINITY) ? weight : current.minDistance + weight;
-				if (distance < next.minDistance) {
+				if (distance < next.minDistance && (!next.type.equals(Node.DOOR))) {
 					nodeQueue.remove(next);
 					next.minDistance = distance;
 					next.previous = current;
 					nodeQueue.add(next);
 				}
 			}
-			//System.out.println(current);
 		}
 		source.previous = null;
+	}
+	
+	private void resetGraph() {
+		for (Node node : nodes) {
+			node.minDistance = Double.POSITIVE_INFINITY;
+			node.previous = null;
+		}
 	}
 	
 	public List<Node> getShortestPathTo(Node target) {
         List<Node> path = new ArrayList<>();
         Node node = target;
         while (node != null) {
-        	//System.out.println(node);
         	path.add(node);
         	node = node.previous;
         } 
