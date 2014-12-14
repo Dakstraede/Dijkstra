@@ -171,6 +171,8 @@ public class GameWindow extends JFrame {
 								updateMouse.addAll(mouseListDoor2);
 								gamePanel.updateSouris(updateMouse);
 							}
+						} else {
+							mouseListDoor2 = new ArrayList<Mouse>();
 						}
 						// Ouf, on fait une pause ?
 						pause();
