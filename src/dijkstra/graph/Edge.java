@@ -1,37 +1,29 @@
 package dijkstra.graph;
 
 public class Edge {
+
+	private double weight;
+	private Node other = null;
 	
-	/**
-	 * 1 = ligne droite
-	 * 2 = ligne diagonale (Si on gère les diagonales ?)
-	 */
-	private int weight;
+	public Edge(Node other) {
+		this.other = other;
+	}
 	
-	private int firstNode;
-	private int secondNode;
-	
-	public Edge(int sourceIndex, int destinationIndex,int weight) {
-		this.firstNode = sourceIndex;
-		this.secondNode = destinationIndex;
-		this.weight = weight;
+	public Node getOther() {
+		return this.other;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
-
-	public void setWeight(int weight) {
+	
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 
-	public int getFirstNode() {
-		return this.firstNode;
+	@Override
+	public String toString() {
+		return "Edge [weight=" + weight + ", nodeId=" + other.getId() + "]";
 	}
-
-	public int getSecondNode() {
-		return secondNode;
-	}
-
 
 }

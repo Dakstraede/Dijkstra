@@ -1,5 +1,6 @@
 package engine2D;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,7 +10,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import dijkstra.graph.Graph;
+import dijkstra.graph.Mouse;
 import dijkstra.graph.Node;
+import dijkstra.main.Main;
 
 public class GamePanel extends JPanel {
 
@@ -18,13 +21,13 @@ public class GamePanel extends JPanel {
 	private Graph graph = null;
 	
 	private ArrayList<ArrayList<Node>> background = null;
+	private ArrayList<Mouse> sourisList = null;
 	
 	public GamePanel(Graph graph, ArrayList<ArrayList<Node>> background) throws IOException {
 		this.graph = graph;
 		this.background = background;
 		R.load();
-		System.out.println(graph.getWidth() + ":" + graph.getHeight());
-		setPreferredSize(new Dimension(graph.getWidth() * R.weight, graph.getHeight() * R.height));
+		setPreferredSize(new Dimension(this.graph.getWidth() * R.width, this.graph.getHeight() * R.height));
 	}
 	
 	private void doDrawing(Graphics g) {
@@ -43,12 +46,38 @@ public class GamePanel extends JPanel {
 			for (Node node: row) {
 				if (node.type.equals(Node.CHEESE) || node.type.equals(Node.DOOR)) {
 					g2d.setPaint(R.getTexture(Node.GROUND));
-					g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.weight, R.weight, R.height);
+					g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 				}
 				g2d.setPaint(R.getTexture(node.type));
-				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.weight, R.weight, R.height);
+				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
+				// Debug
+				if (Main.DEBUG_GRAPH) {
+					g2d.setColor(Color.WHITE);
+					g2d.drawString((int)node.minDistance + "", node.getCoordX() * R.height, node.getCoordY() * R.width + 10);
+				}
 			}
 		}
+    	if (sourisList != null) {
+	    	for (Mouse souris : sourisList) {
+	    		if (souris.getPosition() != null) {
+	    			g2d.setPaint(R.getTexture(Node.SANDSHREW));
+					g2d.fillRect(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, R.width, R.height);
+					if (Main.DEBUG_SOURIS) {
+						g2d.setColor(Color.RED);
+						g2d.drawString(souris.getId() + "", souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width + 10);
+					}
+	    		}
+	    	}
+    	}
     }
-
+    
+    /**
+     * On redessine avec les nouvelles positions des souris
+     * @param souris
+     */
+    public void updateSouris(ArrayList<Mouse> souris) {
+    	this.sourisList = souris;
+    	repaint();
+    	validate();
+    }
 }

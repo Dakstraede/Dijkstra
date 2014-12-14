@@ -1,46 +1,48 @@
 package dijkstra.main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
 import dijkstra.parser.FileParser;
 import engine2D.GameWindow;
 
 public class Main {
-	
-	private static ArrayList<ArrayList<Node>> background = null;
-	
-    public static void main(String[] args) {
-        String testfile = "test.txt";
 
-        if(FileParser.isParseable(testfile)){
-            Graph graph = FileParser.parseFile(testfile);
-            System.out.println("height : "+graph.getHeight());
-            System.out.println("width : "+graph.getWidth());
-            System.out.println("ground : "+graph.getNumberOfGrounds());
-            System.out.println("grass : "+graph.getNumberOfGrass());
-            System.out.println("doors : "+graph.getNumberOfDoors());
-            System.out.println("exits : "+graph.getNumberOfExits());
-            System.out.println("walls : "+graph.getNumberOfWalls());
-            System.out.println("edges : "+graph.getNumberOfEdges());
-            
-            try {
-            	background = FileParser.parseIn2dTable(testfile);
-			} catch (IOException e) {
-				e.printStackTrace();
+	private static ArrayList<ArrayList<Node>> background = null;
+	public static boolean DEBUG_GRAPH = false;
+	public static boolean DEBUG_SOURIS = false;
+
+	public static void main(String[] args) {
+		String testfile = "resources/map/map1.txt";
+		
+		final JFileChooser fc = new JFileChooser(new File("resources/map"));
+		int returnVal = fc.showOpenDialog(null);
+		testfile = fc.getSelectedFile().getPath();
+		System.out.println(fc.getSelectedFile().getPath());
+		
+		FileParser parser = new FileParser();
+		try {
+			if (parser.isParseable(testfile)) {
+				background = parser.parseIn2dTable(testfile);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						GameWindow sk = new GameWindow(parser.getGraph(),
+								background);
+						sk.setVisible(true);
+					}
+				});
+			} else {
+				JOptionPane.showMessageDialog(null, "Invalide Map", "File Parser", 0);
 			}
-            
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    GameWindow sk = new GameWindow(graph, background);
-                    sk.setVisible(true);
-                }
-            });
-        }
-    }
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "File Parser", 0);
+		}
+	}
 }

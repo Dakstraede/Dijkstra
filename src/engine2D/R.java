@@ -18,8 +18,10 @@ public class R {
 	private static HashMap<String, BufferedImage> imageMap = new HashMap<>();
 	private static HashMap<String, TexturePaint> textureMap = new HashMap<>();
 	
+	public final static int width = 26;
 	public final static int height = 26;
-	public final static int weight = 26;
+	
+	public static int fps = 200;
 	
 	// Singleton
 	private R() {}
@@ -47,7 +49,7 @@ public class R {
 	}
 	
 	private static void initTextures(String key, BufferedImage img) {
-		textureMap.put(key, new TexturePaint(img, new Rectangle(0, 0, weight, height)));
+		textureMap.put(key, new TexturePaint(img, new Rectangle(0, 0, width, height)));
 	}
 	
 	public static TexturePaint getTexture(String key) {
