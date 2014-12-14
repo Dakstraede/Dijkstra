@@ -12,10 +12,10 @@ import engine2D.GameWindow;
 public class Main {
 	
 	private static ArrayList<ArrayList<Node>> background = null;
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	
     public static void main(String[] args) {
-        String testfile = "resources/map/minimap.txt";
+        String testfile = "resources/map/map1.txt";
         FileParser parser = new FileParser();
         
         if(parser.isParseable(testfile)){  

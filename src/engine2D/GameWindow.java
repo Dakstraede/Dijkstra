@@ -74,6 +74,14 @@ public class GameWindow extends JFrame {
 		}
 	}
 	
+	private boolean removeSouris(ArrayList<Souris> deleteSouris) {
+		System.out.println(sourisList.size());
+		for (Souris s : deleteSouris) {
+			sourisList.remove(s);
+		}
+		return true;
+	}
+	
 	private ActionListener startListener = new ActionListener() {
 		
 		@Override
@@ -90,19 +98,23 @@ public class GameWindow extends JFrame {
 					Node door = graph.getDoor();
 					Node cheese = graph.getCheese().get(0);
 					
+					ArrayList<Souris> deleteSouris = new ArrayList<Souris>();
+					
 					int tour = 1;
 					// Tant qu'il reste des souris
-					while (TOTAL_SOURIS != sourisArrived) {
+					//while (TOTAL_SOURIS != sourisArrived) {
 					//while (tour <= 2) {
+					while(sourisList.size() > 0) {
 						System.out.println("TOUR " + tour);
+						removeSouris(deleteSouris);
 						for (Souris souris: sourisList) {
-							
+							System.out.println(souris);
 							// Recherche de chemin pour la souris
 							if (souris.getPosition() != null) {
-								System.out.println(souris);
+								//System.out.println(souris);
 								graph.computePaths(souris.getPosition());
 								List<Node> path = graph.getShortestPathTo(cheese);
-								System.out.println(path);
+								//System.out.println(path);
 								gamePanel.updateSouris(sourisList);
 								
 								try {
@@ -113,7 +125,7 @@ public class GameWindow extends JFrame {
 								}
 								if (souris.getPosition().type.equals(Node.CHEESE)) {
 									sourisArrived++;
-									//sourisList.remove(souris);
+									deleteSouris.add(souris);
 								}
 							}
 							
@@ -129,6 +141,8 @@ public class GameWindow extends JFrame {
 									}
 								}
 							}
+							
+							
 						}
 
 						// Ouf, on fait une pause ?
