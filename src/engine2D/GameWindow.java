@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -87,7 +88,7 @@ public class GameWindow extends JFrame {
 					int sourisArrived = 0;
 					
 					Node door = graph.getDoor();
-					Node cheese = graph.getCheese();
+					Node cheese = graph.getCheese().get(0);
 					
 					int tour = 1;
 					// Tant qu'il reste des souris
@@ -149,7 +150,7 @@ public class GameWindow extends JFrame {
 					/*
 					List<Node> path = graph.getShortestPathTo(cheese);
 					start.setEnabled(false);
-					for (Node n: path) {
+					for (Node n: graph.getShortestPathTo(shortestCheese)) {
 						try {
 							Thread.sleep(speedSlider.getValue());
 							gamePanel.update(n);
