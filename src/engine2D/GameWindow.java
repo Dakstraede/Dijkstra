@@ -83,15 +83,25 @@ public class GameWindow extends JFrame {
                             Node nextCheese = iterator.next();
                             if(cureent.compareTo(nextCheese) < 0)
                             {
-                                shortestCheese = cureent;
+                                if (shortestCheese == null)
+                                    shortestCheese = cureent;
+                                else if (shortestCheese.compareTo(cureent) > 0)
+                                    shortestCheese = cureent;
                             }
                             else {
-                                shortestCheese = nextCheese;
+                                if (shortestCheese == null)
+                                    shortestCheese = nextCheese;
+                                else if(shortestCheese.compareTo(nextCheese) > 0)
+                                    shortestCheese = nextCheese;
                             }
                         }
-                        shortestCheese = cureent;
+                        else {
+                            if (shortestCheese == null)
+                                shortestCheese = cureent;
+                            else if (shortestCheese.compareTo(cureent) > 0)
+                                shortestCheese = cureent;
+                        }
                     }
-
 					start.setEnabled(false);
 					for (Node n: graph.getShortestPathTo(shortestCheese)) {
 						try {

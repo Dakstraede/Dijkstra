@@ -14,8 +14,8 @@ public class Main {
 	private static ArrayList<ArrayList<Node>> background = null;
 	
     public static void main(String[] args) {
-        String testfile = "resources/map/map1.txt";
-        FileParser parser = new FileParser();
+        String testfile = "resources/map/map2.txt";
+        final FileParser parser = new FileParser();
         
         if(parser.isParseable(testfile)){  
             try {
