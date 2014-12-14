@@ -99,6 +99,7 @@ public class GameWindow extends JFrame {
 	private boolean removeSouris(ArrayList<Mouse> deleteSouris) {
 		for (Mouse s : deleteSouris) {
 			mouseListDoor1.remove(s);
+			mouseListDoor2.remove(s);
 		}
 		return true;
 	}
@@ -124,19 +125,32 @@ public class GameWindow extends JFrame {
 			Thread gameThread = new Thread(new Runnable() {
 				
 				@Override
-				public void run() {					
-					Node door = graph.getDoor().get(0);
+				public void run() {
+					ArrayList<Node> doors = graph.getDoor();
 					ArrayList<Mouse> deleteSouris = new ArrayList<Mouse>();
 					int tour = 1;
 					
-					while(mouseListDoor1.size() > 0) {
+					while( (mouseListDoor1.size()>0) || (mouseListDoor2.size()>0) ) {
 						updateInfo(tour);
-						for (Mouse souris: mouseListDoor1) {
-							searchPath(souris, deleteSouris);
-							mouseOutTheDoor(souris, door);
-							gamePanel.updateSouris(mouseListDoor1);
+						if (doors.size() >= 1) {
+							for (Mouse souris: mouseListDoor1) {
+								searchPath(souris, deleteSouris);
+								mouseOutTheDoor(souris, doors.get(0));
+								ArrayList<Mouse> updateMouse = new ArrayList<Mouse>(mouseListDoor1);
+								updateMouse.addAll(mouseListDoor2);
+								gamePanel.updateSouris(updateMouse);
+							}
 						}
 						
+						if (doors.size() >= 2) {
+							for (Mouse souris: mouseListDoor2) {
+								searchPath(souris, deleteSouris);
+								mouseOutTheDoor(souris, doors.get(1));
+								ArrayList<Mouse> updateMouse = new ArrayList<Mouse>(mouseListDoor1);
+								updateMouse.addAll(mouseListDoor2);
+								gamePanel.updateSouris(updateMouse);
+							}
+						}
 						// Ouf, on fait une pause ?
 						pause();
 						tour++;
@@ -220,6 +234,11 @@ public class GameWindow extends JFrame {
 	private int getNbMovementMouse() {
 		int res = 0;
 		for (Mouse s : mouseListDoor1) {
+			if (s.getPosition() != null) {
+				res++;
+			}
+		}
+		for (Mouse s : mouseListDoor2) {
 			if (s.getPosition() != null) {
 				res++;
 			}

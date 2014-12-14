@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import dijkstra.graph.Graph;
-import dijkstra.graph.Node;
 import dijkstra.graph.Mouse;
+import dijkstra.graph.Node;
 import dijkstra.main.Main;
 
 public class GamePanel extends JPanel {

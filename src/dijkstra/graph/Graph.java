@@ -98,8 +98,8 @@ public class Graph {
         return res;
     }
 	
-	public List<Node> getDoor() {
-		List<Node> doors = new ArrayList<>();
+	public ArrayList<Node> getDoor() {
+		ArrayList<Node> doors = new ArrayList<>();
 		for (Node node : nodes) {
 			if (node.type.equals(Node.DOOR)) {
 				doors.add(node);
