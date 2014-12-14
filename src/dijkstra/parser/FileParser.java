@@ -2,6 +2,7 @@ package dijkstra.parser;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -109,48 +110,43 @@ public class FileParser {
      *
      * @param file : file to parse
      * @return boolean
+     * @throws IOException 
      */
     /*@TODO : Il serait bien d'ajouter un handler d'erreurs, pour que l'utilisateur sache exactement pourquoi le fichier n'est pas parsable
     * @TODO : et éventuellement une vérification des caractères de chaque ligne, parmis ceux autorisés (exceptions personnalisées -> best)*/
-    public boolean  isParseable(String file){
-        try{
-            //file opening
-            String line;
-            StringBuilder content = new StringBuilder();
-            int lineCount = 0;
-            Vector<Integer> lineLengths = new Vector<Integer>();
+    public boolean  isParseable(String file) throws IOException{
+        //file opening
+        String line;
+        StringBuilder content = new StringBuilder();
+        int lineCount = 0;
+        Vector<Integer> lineLengths = new Vector<Integer>();
 
-            InputStream ips=new FileInputStream(file);
-            InputStreamReader ipsr=new InputStreamReader(ips);
-            @SuppressWarnings("resource")
-			BufferedReader br=new BufferedReader(ipsr);
+        InputStream ips=new FileInputStream(file);
+        InputStreamReader ipsr=new InputStreamReader(ips);
+        @SuppressWarnings("resource")
+		BufferedReader br=new BufferedReader(ipsr);
 
-            //get line count and length of each line
-            while((line = br.readLine()) != null){
-                content.append(line);
-                lineCount++;
-                lineLengths.add(line.length());
-            }
-
-            //line count control
-            if(lineCount < 3)
-                return false;
-            else {
-                //verify if each line is the same length
-                boolean sameLengthLines = true;
-                int firstLineLength = lineLengths.elementAt(0);
-                for (int i = 1; i < lineLengths.size(); i++) {
-                    if (lineLengths.elementAt(i) != firstLineLength) {
-                        sameLengthLines = false;
-                    }
-                }
-                //enclosure control and return in one line -> this is beautiful coding
-                return (sameLengthLines && hasEnclosure(content, firstLineLength, lineCount));
-            }
+        //get line count and length of each line
+        while((line = br.readLine()) != null){
+            content.append(line);
+            lineCount++;
+            lineLengths.add(line.length());
         }
-        catch(IOException e){
-            e.printStackTrace();
+
+        //line count control
+        if(lineCount < 3)
             return false;
+        else {
+            //verify if each line is the same length
+            boolean sameLengthLines = true;
+            int firstLineLength = lineLengths.elementAt(0);
+            for (int i = 1; i < lineLengths.size(); i++) {
+                if (lineLengths.elementAt(i) != firstLineLength) {
+                    sameLengthLines = false;
+                }
+            }
+            //enclosure control and return in one line -> this is beautiful coding
+            return (sameLengthLines && hasEnclosure(content, firstLineLength, lineCount));
         }
     }
 
