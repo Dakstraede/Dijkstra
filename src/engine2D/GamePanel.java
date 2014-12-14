@@ -71,6 +71,10 @@ public class GamePanel extends JPanel {
     	}
     }
     
+    /**
+     * On redessine avec les nouvelles positions des souris
+     * @param souris
+     */
     public void updateSouris(ArrayList<Mouse> souris) {
     	this.sourisList = souris;
     	repaint();

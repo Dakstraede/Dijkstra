@@ -36,6 +36,7 @@ public class GameWindow extends JFrame {
 	private JLabel movementMouseLabel = new JLabel("Movement mouse=" + 0);
 	private JLabel mousesNotHungryLabel = new JLabel("Mouses not hungry=" + 0);
 	
+	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
 	
@@ -46,7 +47,14 @@ public class GameWindow extends JFrame {
     
     private int nbNotHungryLabelMouses = 0;
     
+    /**
+     * Liste de souris pour la porte 1
+     */
     private ArrayList<Mouse> mouseListDoor1 = new ArrayList<Mouse>();
+    
+    /**
+     * Liste de souris pour la porte 2
+     */
     private ArrayList<Mouse> mouseListDoor2 = new ArrayList<Mouse>();
 	
 	public GameWindow(Graph graph, ArrayList<ArrayList<Node>> background) {
@@ -96,14 +104,23 @@ public class GameWindow extends JFrame {
 		}
 	}
 	
-	private boolean removeSouris(ArrayList<Mouse> deleteSouris) {
+	/**
+	 * On supprime tous les souris qui on atteint le fromage
+	 * @param deleteSouris
+	 * @return
+	 */
+	private void removeSouris(ArrayList<Mouse> deleteSouris) {
 		for (Mouse s : deleteSouris) {
 			mouseListDoor1.remove(s);
 			mouseListDoor2.remove(s);
 		}
-		return true;
 	}
 	
+	/**
+	 * On récupère le nombre de souris à partir du champ de saisie
+	 * @param nb
+	 * @return Si le format n'est pas bon, on retourne le nombre par défaut
+	 */
 	public int getTotalDoorMouse(JTextField nb) {
 		int total = TOTAL_MOUSE;
 		try {
@@ -170,12 +187,22 @@ public class GameWindow extends JFrame {
 		}
 	};
 	
+	/**
+	 * On met a jour les info
+	 * @param tour
+	 */
 	private void updateInfo(int tour) {
 		movementMouseLabel.setText("Movement mouse=" + getNbMovementMouse());
 		mousesNotHungryLabel.setText("Mouses not hungry=" + getMousesNotHungry());
 		tourLabel.setText("Turn=" + tour);
 	}
 	
+	/**
+	 * Pour une souris donnée, on recherche la position suivant et on déplace la souris
+	 * Si la souris a atteint le fromage, on l'ajoute a la liste des souris a supprimer
+	 * @param souris
+	 * @param deleteSouris
+	 */
 	private void searchPath(Mouse souris, ArrayList<Mouse> deleteSouris) {
 		// Recherche de chemin pour la souris
 		if (souris.getPosition() != null) {
@@ -190,6 +217,7 @@ public class GameWindow extends JFrame {
 			}
 		}
 	}
+	
 	
 	private void pause() {
 		try {
@@ -207,6 +235,11 @@ public class GameWindow extends JFrame {
 		}
 	};
 	
+	/**
+	 * Gère la sortie des souris par la porte
+	 * @param souris La souris qui veut sortir
+	 * @param door La porte, par lequel elle veut sortir
+	 */
 	private void mouseOutTheDoor(Mouse souris, Node door) {
 		if (souris.getPosition() == null) {
 			// Si la position est null alors la souris n'est pas encore sortie de la porte
@@ -220,6 +253,11 @@ public class GameWindow extends JFrame {
 		}
 	}
 	
+	/**
+	 * Calcule le chemin vers chaque fromage et choisie le chemin le plus court
+	 * @param source
+	 * @return le meilleur chemin
+	 */
 	private GraphPath getGraphPath(Node source) {
 		PriorityQueue<GraphPath> queueGraphPath = new PriorityQueue<GraphPath>();
 		GraphPath graphPath = null;
