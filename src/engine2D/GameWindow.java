@@ -55,13 +55,13 @@ public class GameWindow extends JFrame {
 		controlPanel.add(speedLabel);
 		speedSlider = new JSlider(JSlider.VERTICAL, 100, 2000, R.fps);
 		speedSlider.setOrientation(JSlider.HORIZONTAL);
+		controlPanel.add(speedSlider);
 		
 		nbSouris.setText(TOTAL_SOURIS + "");
-		
 		controlPanel.add(new JLabel("Souris="));
 		controlPanel.add(nbSouris);
 		controlPanel.add(tourLabel);
-		controlPanel.add(speedSlider);
+		
 		controlPanel.add(start);
         
         try {
