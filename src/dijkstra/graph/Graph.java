@@ -67,7 +67,7 @@ public class Graph {
 			
 			for (Edge edge: current.getEdges()) {
 				Node next = edge.getOther();
-				double weight = (next.isOccuped() == true) ? 3 :   edge.getWeight();
+				double weight = /*(next.isOccuped() == true) ? 3 :*/ edge.getWeight();
 				double distance = (current.minDistance == Double.POSITIVE_INFINITY) ? weight : current.minDistance + weight;
 				if (distance < next.minDistance && (!next.type.equals(Node.DOOR))) {
 					nodeQueue.remove(next);
