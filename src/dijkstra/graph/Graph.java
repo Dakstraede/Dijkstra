@@ -93,9 +93,9 @@ public class Graph {
         	path.add(node);
         	node = node.previous;
         }
-        System.out.println(path.get(0));
+        GraphPath res = new GraphPath(path.get(0).minDistance, path);
         Collections.reverse(path);
-        return new GraphPath(path.get(0).minDistance, path);
+        return res;
     }
 	
 	public List<Node> getDoor() {

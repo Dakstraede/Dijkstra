@@ -114,7 +114,7 @@ public class Node implements Comparable<Node> {
 		//}
 		//str.append("}");
 		
-		str.append("]\n");
+		str.append("]");
 		return str.toString();
 	}
 	

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
+import dijkstra.graph.GraphPath;
 import dijkstra.graph.Node;
 import dijkstra.graph.Souris;
 
@@ -120,12 +122,11 @@ public class GameWindow extends JFrame {
 						for (Souris souris: sourisList) {
 							// Recherche de chemin pour la souris
 							if (souris.getPosition() != null) {
-								graph.computePaths(souris.getPosition());
-								List<Node> path = graph.getShortestPathTo(cheese).getPath();
+								GraphPath graphPath = getGraphPath(souris.getPosition());
 								gamePanel.updateSouris(sourisList);
 								
 								try {
-									souris.move(path.get(1));
+									souris.move(graphPath.getPath().get(1));
 								} catch (IndexOutOfBoundsException e) {
 									System.out.println("Stop");
 								}
@@ -170,5 +171,17 @@ public class GameWindow extends JFrame {
 			speedLabel.setText("Speed=" + source.getValue());
 		}
 	};
+	
+	private GraphPath getGraphPath(Node source) {
+		PriorityQueue<GraphPath> queueGraphPath = new PriorityQueue<GraphPath>();
+		GraphPath graphPath = null;
+		for (Node cheese : graph.getCheese()) {
+			graph.computePaths(source);
+			graphPath = graph.getShortestPathTo(cheese);
+			System.out.println("getGraphPath = " + graphPath);
+			queueGraphPath.add(graphPath);
+		}
+		return queueGraphPath.poll();
+	}
 }
 
