@@ -150,6 +150,7 @@ public class GameWindow extends JFrame {
 					ArrayList<Node> doors = graph.getDoor();
 					ArrayList<Mouse> deleteSouris = new ArrayList<Mouse>();
 					int tour = 1;
+					totalMouvements = 0;
 					
 					while( (mouseListDoor1.size()>0) || (mouseListDoor2.size()>0) ) {
 						updateInfo(tour);

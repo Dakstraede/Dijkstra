@@ -19,11 +19,16 @@ public class Main {
 	public static boolean DEBUG_SOURIS = false;
 
 	public static void main(String[] args) {
-		String testfile = "resources/map/map1.txt";
+		String testfile = "resources" + File.separator + "map" + File.separator + "map1.txt";
 		
-		final JFileChooser fc = new JFileChooser(new File("resources/map"));
+		final JFileChooser fc = new JFileChooser(new File("resources" + File.separator + "map"));
 		int returnVal = fc.showOpenDialog(null);
+		if (returnVal == 1) {
+			System.exit(0);
+		}
+		System.out.println(returnVal);
 		testfile = fc.getSelectedFile().getPath();
+		
 		System.out.println(fc.getSelectedFile().getPath());
 		
 		FileParser parser = new FileParser();
