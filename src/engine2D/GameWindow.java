@@ -31,6 +31,7 @@ public class GameWindow extends JFrame {
 	private JSlider speedSlider = null;
 	private JLabel tourLabel = new JLabel("Tour=0");
 	private JTextField nbSouris = new JTextField(3);
+	private JLabel sourisMovement = new JLabel("Movement mouse=" + 0);
 	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
@@ -63,6 +64,7 @@ public class GameWindow extends JFrame {
 		controlPanel.add(tourLabel);
 		
 		controlPanel.add(start);
+		controlPanel.add(sourisMovement);
         
         try {
         	gamePanel = new GamePanel(this.graph, this.background);
@@ -115,6 +117,7 @@ public class GameWindow extends JFrame {
 					int tour = 1;
 					
 					while(sourisList.size() > 0) {
+						sourisMovement.setText("Movement mouse=" + getNbMovementMouse());
 						tourLabel.setText("Tour=" + tour);
 						
 						for (Souris souris: sourisList) {
@@ -129,37 +132,34 @@ public class GameWindow extends JFrame {
 									deleteSouris.add(souris);
 								}
 							}
+
+							mouseOutTheDoor(souris, door);
 							
-							if (souris.getPosition() == null) {
-								// Si la position est null alors la souris n'est pas encore sortie de la porte
-								// Recherche de node libre pret de la porte
-								for (Edge e: door.getEdges()) {
-									Node maybeFreeNode = e.getOther();
-									if (maybeFreeNode.isOccuped() == false) {
-										souris.move(maybeFreeNode);
-									}
-								}
-							}
 							
 							gamePanel.updateSouris(sourisList);
 						}
-
+						
 						// Ouf, on fait une pause ?
-						try {
-							Thread.sleep(speedSlider.getValue()); 
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
+						pause();
 						tour++;
 						removeSouris(deleteSouris);
 					} // while
-
+					sourisMovement.setText("Movement mouse=" + getNbMovementMouse());
+					gamePanel.updateSouris(sourisList);
 					start.setEnabled(true);
 				}
 			});
 			gameThread.start();
 		}
 	};
+	
+	private void pause() {
+		try {
+			Thread.sleep(speedSlider.getValue()); 
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+	}
 	
 	private ChangeListener speedChangeListener = new ChangeListener() {
 		@Override
@@ -168,6 +168,19 @@ public class GameWindow extends JFrame {
 			speedLabel.setText("Speed=" + source.getValue());
 		}
 	};
+	
+	private void mouseOutTheDoor(Souris souris, Node door) {
+		if (souris.getPosition() == null) {
+			// Si la position est null alors la souris n'est pas encore sortie de la porte
+			// Recherche de node libre pret de la porte
+			for (Edge e: door.getEdges()) {
+				Node maybeFreeNode = e.getOther();
+				if (maybeFreeNode.isOccuped() == false) {
+					souris.move(maybeFreeNode);
+				}
+			}
+		}
+	}
 	
 	private GraphPath getGraphPath(Node source) {
 		PriorityQueue<GraphPath> queueGraphPath = new PriorityQueue<GraphPath>();
@@ -178,6 +191,16 @@ public class GameWindow extends JFrame {
 			queueGraphPath.add(graphPath);
 		}
 		return queueGraphPath.poll();
+	}
+	
+	private int getNbMovementMouse() {
+		int res = 0;
+		for (Souris s : sourisList) {
+			if (s.getPosition() != null) {
+				res++;
+			}
+		}
+		return res;
 	}
 }
 
