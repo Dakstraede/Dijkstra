@@ -1,12 +1,12 @@
 package dijkstra.graph;
 
-public class Souris {
+public class Mouse {
 	
 	private Node position = null;
 	
 	private int id;
 	
-	public Souris(int id) {
+	public Mouse(int id) {
 		this.id = id;
 	}
 	

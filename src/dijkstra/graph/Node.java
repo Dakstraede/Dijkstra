@@ -15,7 +15,7 @@ public class Node implements Comparable<Node> {
 	private int coordX, coordY;
 	public String type = null;
 	private boolean isOccuped = false;
-	public Souris souris = null;
+	public Mouse souris = null;
 	public double minDistance = Double.POSITIVE_INFINITY;
 	public Node previous = null;
 	

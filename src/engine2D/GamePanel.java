@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import dijkstra.graph.Graph;
 import dijkstra.graph.Node;
-import dijkstra.graph.Souris;
+import dijkstra.graph.Mouse;
 import dijkstra.main.Main;
 
 public class GamePanel extends JPanel {
@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 	private Graph graph = null;
 	
 	private ArrayList<ArrayList<Node>> background = null;
-	private ArrayList<Souris> sourisList = null;
+	private ArrayList<Mouse> sourisList = null;
 	
 	public GamePanel(Graph graph, ArrayList<ArrayList<Node>> background) throws IOException {
 		this.graph = graph;
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel {
 			}
 		}
     	if (sourisList != null) {
-	    	for (Souris souris : sourisList) {
+	    	for (Mouse souris : sourisList) {
 	    		if (souris.getPosition() != null) {
 	    			g2d.setPaint(R.getTexture(Node.SANDSHREW));
 					g2d.fillRect(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, R.width, R.height);
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
     	}
     }
     
-    public void updateSouris(ArrayList<Souris> souris) {
+    public void updateSouris(ArrayList<Mouse> souris) {
     	this.sourisList = souris;
     	repaint();
     	validate();

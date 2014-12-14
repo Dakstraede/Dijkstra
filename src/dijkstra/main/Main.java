@@ -16,7 +16,7 @@ public class Main {
 	public static boolean DEBUG_SOURIS = false;
 	
     public static void main(String[] args) {
-        String testfile = "resources/map/map2.txt";
+        String testfile = "resources/map/map1.txt";
         FileParser parser = new FileParser();
         
         if(parser.isParseable(testfile)){  
