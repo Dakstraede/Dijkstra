@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -71,9 +72,28 @@ public class GameWindow extends JFrame {
 				@Override
 				public void run() {
 					graph.computePaths(graph.getDoor());
-					List<Node> path = graph.getShortestPathTo(graph.getCheese());
+                    List<Node> paths = graph.getCheese();
+                    Node shortestCheese = null;
+                    Iterator<Node> iterator = paths.listIterator();
+                    while (iterator.hasNext())
+                    {
+                        Node cureent = iterator.next();
+                        if (iterator.hasNext())
+                        {
+                            Node nextCheese = iterator.next();
+                            if(cureent.compareTo(nextCheese) < 0)
+                            {
+                                shortestCheese = cureent;
+                            }
+                            else {
+                                shortestCheese = nextCheese;
+                            }
+                        }
+                        shortestCheese = cureent;
+                    }
+
 					start.setEnabled(false);
-					for (Node n: path) {
+					for (Node n: graph.getShortestPathTo(shortestCheese)) {
 						try {
 							Thread.sleep(speedSlider.getValue());
 							gamePanel.update(n);

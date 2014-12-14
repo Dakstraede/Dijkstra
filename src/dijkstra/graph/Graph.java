@@ -105,14 +105,14 @@ public class Graph {
 		return door;
 	}
 	
-	public Node getCheese() {
-		Node cheese = null;
+	public List<Node> getCheese() {
+		List<Node> cheeses = new ArrayList<>();
 		for (Node node : nodes) {
 			if (node.type.equals(Node.CHEESE)) {
-				cheese = node;
+                cheeses.add(node);
 			}
 		}
-		return cheese;
+		return cheeses;
 	}
 }
 
