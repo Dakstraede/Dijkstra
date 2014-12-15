@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,47 +16,32 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import dijkstra.graph.Edge;
 import dijkstra.graph.Graph;
-import dijkstra.graph.GraphPath;
-import dijkstra.graph.Mouse;
 import dijkstra.graph.Node;
 
 public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JButton start = new JButton("Start");
+	public JButton start = new JButton("Start");
 	private JLabel speedLabel = new JLabel("Speed=" + R.fps);
-	private JSlider speedSlider = null;
+	public JSlider speedSlider = null;
 	private JLabel tourLabel = new JLabel("Turn=0");
 	private JTextField nbMouseDoor1 = new JTextField(3);
 	private JTextField nbMouseDoor2 = new JTextField(3);
-	private JLabel movementMouseLabel = new JLabel("Movement mouse=" + 0);
-	private JLabel mousesNotHungryLabel = new JLabel("Mouses not hungry=" + 0);
-	
-	private int totalMouvements = 0;
-	private JLabel totalMouvementsLabel = new JLabel("Total Mouvements=" + totalMouvements);
+	private JLabel movementMouseLabel = new JLabel("Movement mouse=0");
+	private JLabel mousesNotHungryLabel = new JLabel("Mouses not hungry=0");
+	private JLabel totalMouvementsLabel = new JLabel("Total Mouvements=0");
 	
 	
 	private Graph graph = null;
 	private ArrayList<ArrayList<Node>> background = null;
 	
+	private Game game = null;
+	
 	private JPanel infoPanel = new JPanel(new GridLayout(0, 4));
 	private JPanel controlPanel = new JPanel();
     private GamePanel gamePanel = null;
-    
-    private int nbNotHungryLabelMouses = 0;
-    
-    /**
-     * Liste de souris pour la porte 1
-     */
-    private ArrayList<Mouse> mouseListDoor1 = new ArrayList<Mouse>();
-    
-    /**
-     * Liste de souris pour la porte 2
-     */
-    private ArrayList<Mouse> mouseListDoor2 = new ArrayList<Mouse>();
 	
 	public GameWindow(Graph graph, ArrayList<ArrayList<Node>> background) {
 		this.graph = graph;
@@ -101,33 +85,19 @@ public class GameWindow extends JFrame {
         speedSlider.addChangeListener(speedChangeListener);
 	}
 	
-	private void initMouse(int nb, ArrayList<Mouse> mouseListDoor, int door) {
-		for (int i=1; i<=nb; i++) {
-			mouseListDoor.add(new Mouse(i, door));
-		}
-	}
+
 	
-	/**
-	 * On supprime tous les souris qui on atteint le fromage
-	 * @param deleteSouris
-	 * @return
-	 */
-	private void removeSouris(ArrayList<Mouse> deleteSouris) {
-		for (Mouse s : deleteSouris) {
-			mouseListDoor1.remove(s);
-			mouseListDoor2.remove(s);
-		}
-	}
+
 	
 	/**
 	 * On récupère le nombre de souris à partir du champ de saisie
 	 * @param nb
 	 * @return Si le format n'est pas bon, on retourne le nombre par défaut
 	 */
-	public int getTotalDoorMouse(JTextField nb) {
+	public int getTotalDoorMouse(String nb) {
 		int total = R.TOTAL_MOUSE;
 		try {
-			total = Integer.parseInt(nb.getText());
+			total = Integer.parseInt(nb);
 		} catch (NumberFormatException  e) {
 			total = R.TOTAL_MOUSE;
 		}
@@ -139,55 +109,10 @@ public class GameWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			start.setEnabled(false);
-			initMouse(getTotalDoorMouse(nbMouseDoor1), mouseListDoor1, 1);
-			initMouse(getTotalDoorMouse(nbMouseDoor2), mouseListDoor2, 2);
-			
-			Thread gameThread = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					ArrayList<Node> doors = graph.getDoor();
-					ArrayList<Mouse> deleteSouris = new ArrayList<Mouse>();
-					int tour = 1;
-					totalMouvements = 0;
-					
-					while( (mouseListDoor1.size()>0) || (mouseListDoor2.size()>0) ) {
-						updateInfo(tour);
-						if (doors.size() >= 1) {
-							for (Mouse souris: mouseListDoor1) {
-								searchPath(souris, deleteSouris);
-								mouseOutTheDoor(souris, doors.get(0));
-								ArrayList<Mouse> updateMouse = new ArrayList<Mouse>(mouseListDoor1);
-								updateMouse.addAll(mouseListDoor2);
-								gamePanel.updateSouris(updateMouse);
-							}
-						}
-						
-						if (doors.size() >= 2) {
-							for (Mouse souris: mouseListDoor2) {
-								searchPath(souris, deleteSouris);
-								mouseOutTheDoor(souris, doors.get(1));
-								ArrayList<Mouse> updateMouse = new ArrayList<Mouse>(mouseListDoor1);
-								updateMouse.addAll(mouseListDoor2);
-								gamePanel.updateSouris(updateMouse);
-							}
-						} else {
-							mouseListDoor2 = new ArrayList<Mouse>();
-						}
-						// Ouf, on fait une pause ?
-						pause();
-						tour++;
-						removeSouris(deleteSouris);
-					} // while
-					
-					updateInfo(tour);
-					gamePanel.updateSouris(mouseListDoor1);
-					start.setEnabled(true);
-				}
-
-
-
-			});
+			game = new Game(graph, gamePanel, GameWindow.this);
+			game.initMouse(getTotalDoorMouse(nbMouseDoor1.getText()), 1);
+			game.initMouse(getTotalDoorMouse(nbMouseDoor2.getText()), 2);
+			Thread gameThread = new Thread(game);
 			gameThread.start();
 		}
 	};
@@ -196,42 +121,11 @@ public class GameWindow extends JFrame {
 	 * On met a jour les info
 	 * @param tour
 	 */
-	private void updateInfo(int tour) {
-		movementMouseLabel.setText("Movement mouse=" + getNbMovementMouse());
-		mousesNotHungryLabel.setText("Mouses not hungry=" + nbNotHungryLabelMouses);
-		totalMouvementsLabel.setText("Total Mouvements=" + totalMouvements);
+	public void updateInfo(int tour, int nbMoveMouse, int total, int nbNotHungryMouses) {
+		movementMouseLabel.setText("Movement=" + nbMoveMouse);
+		mousesNotHungryLabel.setText("Mouses not hungry=" + nbNotHungryMouses);
+		totalMouvementsLabel.setText("Total=" + total);
 		tourLabel.setText("Turn=" + tour);
-	}
-	
-	/**
-	 * Pour une souris donnée, on recherche la position suivant et on déplace la souris
-	 * Si la souris a atteint le fromage, on l'ajoute a la liste des souris a supprimer
-	 * @param souris
-	 * @param deleteSouris
-	 */
-	private void searchPath(Mouse souris, ArrayList<Mouse> deleteSouris) {
-		// Recherche de chemin pour la souris
-		if (souris.getPosition() != null) {
-			try {
-				souris.move(getGraphPath(souris.getPosition()).getPath().get(1));
-			} catch (IndexOutOfBoundsException e) {
-				System.out.println("Stop");
-			}
-			if (souris.getPosition().type.equals(Node.CHEESE)) {
-				deleteSouris.add(souris);
-				nbNotHungryLabelMouses++;
-				totalMouvements += souris.getSteps();
-			}
-		}
-	}
-	
-	
-	private void pause() {
-		try {
-			Thread.sleep(speedSlider.getValue()); 
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
 	}
 	
 	private ChangeListener speedChangeListener = new ChangeListener() {
@@ -241,53 +135,4 @@ public class GameWindow extends JFrame {
 			speedLabel.setText("Speed=" + source.getValue());
 		}
 	};
-	
-	/**
-	 * Gère la sortie des souris par la porte
-	 * @param souris La souris qui veut sortir
-	 * @param door La porte, par lequel elle veut sortir
-	 */
-	private void mouseOutTheDoor(Mouse souris, Node door) {
-		if (souris.getPosition() == null) {
-			// Si la position est null alors la souris n'est pas encore sortie de la porte
-			// Recherche de node libre pret de la porte
-			for (Edge e: door.getEdges()) {
-				Node maybeFreeNode = e.getOther();
-				if (maybeFreeNode.isOccuped() == false) {
-					souris.move(maybeFreeNode);
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Calcule le chemin vers chaque fromage et choisie le chemin le plus court
-	 * @param source
-	 * @return le meilleur chemin
-	 */
-	private GraphPath getGraphPath(Node source) {
-		PriorityQueue<GraphPath> queueGraphPath = new PriorityQueue<GraphPath>();
-		GraphPath graphPath = null;
-		for (Node cheese : graph.getCheese()) {
-			graph.computePaths(source);
-			graphPath = graph.getShortestPathTo(cheese);
-			queueGraphPath.add(graphPath);
-		}
-		return queueGraphPath.poll();
-	}
-	
-	private int getNbMovementMouse() {
-		int res = 0;
-		for (Mouse s : mouseListDoor1) {
-			if (s.getPosition() != null) {
-				res++;
-			}
-		}
-		for (Mouse s : mouseListDoor2) {
-			if (s.getPosition() != null) {
-				res++;
-			}
-		}
-		return res;
-	}
 }
