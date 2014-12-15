@@ -8,6 +8,16 @@ public class Mouse {
 	
 	private int steps = 0;
 	
+	private int door = 0;
+	
+	public int getDoor() {
+		return door;
+	}
+
+	public void setDoor(int door) {
+		this.door = door;
+	}
+
 	public int getSteps() {
 		return steps;
 	}
@@ -16,8 +26,9 @@ public class Mouse {
 		this.steps = steps;
 	}
 
-	public Mouse(int id) {
+	public Mouse(int id, int door) {
 		this.id = id;
+		this.door = door;
 	}
 	
 	public int getId() {

@@ -18,10 +18,16 @@ public class R {
 	private static HashMap<String, BufferedImage> imageMap = new HashMap<>();
 	private static HashMap<String, TexturePaint> textureMap = new HashMap<>();
 	
+	public static boolean DEBUG_GRAPH = false;
+	public static boolean DEBUG_SOURIS = false;
+	public static boolean DEBUG_MOUSE_COLOR = true;
+	
+	public final static int TOTAL_MOUSE = 100;
+	
 	public final static int width = 26;
 	public final static int height = 26;
 	
-	public static int fps = 200;
+	public static int fps = 150;
 	
 	// Singleton
 	private R() {}

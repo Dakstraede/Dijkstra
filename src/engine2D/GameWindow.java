@@ -46,7 +46,6 @@ public class GameWindow extends JFrame {
 	private JPanel infoPanel = new JPanel(new GridLayout(0, 4));
 	private JPanel controlPanel = new JPanel();
     private GamePanel gamePanel = null;
-    private final static int TOTAL_MOUSE = 20;
     
     private int nbNotHungryLabelMouses = 0;
     
@@ -76,8 +75,8 @@ public class GameWindow extends JFrame {
 		speedSlider.setOrientation(JSlider.HORIZONTAL);
 		controlPanel.add(speedSlider);
 		
-		nbMouseDoor1.setText(TOTAL_MOUSE + "");
-		nbMouseDoor2.setText(TOTAL_MOUSE + "");
+		nbMouseDoor1.setText(R.TOTAL_MOUSE + "");
+		nbMouseDoor2.setText(R.TOTAL_MOUSE + "");
 		controlPanel.add(new JLabel("Mouse Door1="));
 		controlPanel.add(nbMouseDoor1);
 		controlPanel.add(new JLabel("Mouse Door2="));
@@ -102,9 +101,9 @@ public class GameWindow extends JFrame {
         speedSlider.addChangeListener(speedChangeListener);
 	}
 	
-	private void initMouse(int nb, ArrayList<Mouse> mouseListDoor) {
+	private void initMouse(int nb, ArrayList<Mouse> mouseListDoor, int door) {
 		for (int i=1; i<=nb; i++) {
-			mouseListDoor.add(new Mouse(i));
+			mouseListDoor.add(new Mouse(i, door));
 		}
 	}
 	
@@ -126,11 +125,11 @@ public class GameWindow extends JFrame {
 	 * @return Si le format n'est pas bon, on retourne le nombre par défaut
 	 */
 	public int getTotalDoorMouse(JTextField nb) {
-		int total = TOTAL_MOUSE;
+		int total = R.TOTAL_MOUSE;
 		try {
 			total = Integer.parseInt(nb.getText());
 		} catch (NumberFormatException  e) {
-			total = TOTAL_MOUSE;
+			total = R.TOTAL_MOUSE;
 		}
 		return total;
 	}
@@ -140,8 +139,8 @@ public class GameWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			start.setEnabled(false);
-			initMouse(getTotalDoorMouse(nbMouseDoor1), mouseListDoor1);
-			initMouse(getTotalDoorMouse(nbMouseDoor2), mouseListDoor2);
+			initMouse(getTotalDoorMouse(nbMouseDoor1), mouseListDoor1, 1);
+			initMouse(getTotalDoorMouse(nbMouseDoor2), mouseListDoor2, 2);
 			
 			Thread gameThread = new Thread(new Runnable() {
 				

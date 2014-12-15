@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import dijkstra.graph.Graph;
 import dijkstra.graph.Mouse;
 import dijkstra.graph.Node;
-import dijkstra.main.Main;
 
 public class GamePanel extends JPanel {
 
@@ -51,7 +50,7 @@ public class GamePanel extends JPanel {
 				g2d.setPaint(R.getTexture(node.type));
 				g2d.fillRect(node.getCoordX() * R.height, node.getCoordY() * R.width, R.width, R.height);
 				// Debug
-				if (Main.DEBUG_GRAPH) {
+				if (R.DEBUG_GRAPH && !node.type.equals(Node.WALL)) {
 					g2d.setColor(Color.WHITE);
 					g2d.drawString((int)node.minDistance + "", node.getCoordX() * R.height, node.getCoordY() * R.width + 10);
 				}
@@ -62,7 +61,20 @@ public class GamePanel extends JPanel {
 	    		if (souris.getPosition() != null) {
 	    			g2d.setPaint(R.getTexture(Node.SANDSHREW));
 					g2d.fillRect(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, R.width, R.height);
-					if (Main.DEBUG_SOURIS) {
+					
+					if (R.DEBUG_MOUSE_COLOR == true) {
+						if (souris.getDoor() == 1) {
+							g2d.setColor(Color.RED);
+							g2d.drawOval(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, 5, 5);
+						}
+						
+						if (souris.getDoor() == 2) {
+							g2d.setColor(Color.BLUE);
+							g2d.drawOval(souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width, 5, 5);
+						}
+					}
+					
+					if (R.DEBUG_SOURIS) {
 						g2d.setColor(Color.RED);
 						g2d.drawString(souris.getId() + "", souris.getPosition().getCoordX() * R.height, souris.getPosition().getCoordY() * R.width + 10);
 					}

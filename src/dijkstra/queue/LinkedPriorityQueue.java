@@ -14,6 +14,8 @@ public class LinkedPriorityQueue<V> {
 			Link<V> pivot = list;
 			while(pivot != null) {
 				
+				
+				pivot.setNext(pivot.getNext());
 			}
 		}
 	}
@@ -22,6 +24,9 @@ public class LinkedPriorityQueue<V> {
 		if (list != null) {
 			Link<V> pivot = list;
 			while(pivot != null) {
+				if (pivot == element) {
+					
+				}
 				pivot.setNext(pivot.getNext());
 			}
 			return true;
@@ -42,6 +47,6 @@ public class LinkedPriorityQueue<V> {
 	}
 	
 	public boolean isEmpty() {
-		return false;
+		return list == null;
 	}
 }

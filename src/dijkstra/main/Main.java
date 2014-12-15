@@ -15,9 +15,6 @@ import engine2D.GameWindow;
 public class Main {
 
 	private static ArrayList<ArrayList<Node>> background = null;
-	public static boolean DEBUG_GRAPH = false;
-	public static boolean DEBUG_SOURIS = false;
-
 	public static void main(String[] args) {
 		String testfile = "resources" + File.separator + "map" + File.separator + "map1.txt";
 		
