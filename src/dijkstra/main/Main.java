@@ -23,10 +23,8 @@ public class Main {
 		if (returnVal == 1) {
 			System.exit(0);
 		}
-		System.out.println(returnVal);
-		testfile = fc.getSelectedFile().getPath();
 		
-		System.out.println(fc.getSelectedFile().getPath());
+		testfile = fc.getSelectedFile().getPath();
 		
 		FileParser parser = new FileParser();
 		try {

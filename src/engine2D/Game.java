@@ -64,15 +64,15 @@ public class Game implements Runnable {
 			} else {
 				mouseListDoor2 = new ArrayList<Mouse>();
 			}
-			// Ouf, on fait une pause ?
-			pause();
+			
+			pause(); // Ouf, on fait une pause ?
 			tour++;
 			removeSouris(deleteSouris);
 		} // while
 		
 		gameWindow.updateInfo(tour, getNbMovementMouse(), totalMouvements, nbNotHungryLabelMouses);
 		gamePanel.updateSouris(mouseListDoor1);
-		gameWindow.start.setEnabled(true);
+		gameWindow.setStartButtonEnabled(true);
 	}
 	
 	/**
@@ -87,7 +87,8 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public void initMouse(int nb, int door) {
+	public void initMouse(String nomber, int door) {
+		int nb = getTotalDoorMouse(nomber);
 		for (int i=1; i<=nb; i++) {
 			if (door == 1) {
 				mouseListDoor1.add(new Mouse(i, door));
@@ -122,7 +123,7 @@ public class Game implements Runnable {
 	
 	private void pause() {
 		try {
-			Thread.sleep(gameWindow.speedSlider.getValue()); 
+			Thread.sleep(gameWindow.getSpeed()); 
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
@@ -175,6 +176,21 @@ public class Game implements Runnable {
 			}
 		}
 		return res;
+	}
+	
+	/**
+	 * On récupère le nombre de souris à partir du champ de saisie
+	 * @param nb
+	 * @return Si le format n'est pas bon, on retourne le nombre par défaut
+	 */
+	private int getTotalDoorMouse(String nb) {
+		int total = R.TOTAL_MOUSE;
+		try {
+			total = Integer.parseInt(nb);
+		} catch (NumberFormatException  e) {
+			total = R.TOTAL_MOUSE;
+		}
+		return total;
 	}
 
 }

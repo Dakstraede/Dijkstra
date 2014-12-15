@@ -26,9 +26,7 @@ public class FileParser {
     		for (int i=0; i<line.length(); i++) {
     			String type = getType(line.charAt(i));
     			tmp.add(new Node(id++, type, i, cLine));
-    			System.out.print("" + line.charAt(i));
     		}
-    		System.out.println("");
     		table2d.add(tmp);
     		cLine++;
     	}
@@ -63,14 +61,14 @@ public class FileParser {
      */
     private final int[][] arounds = {
         	// row, col, weight
-			//{-1, -1, 2}, // Nord-Ouest
+			  //{-1, -1, 2}, // Nord-Ouest
 			{-1,  0, 1}, // Nord
-			//{-1,  1, 2}, // Nord-Est
+			  //{-1,  1, 2}, // Nord-Est
 			{ 0, -1, 1}, // Ouest
 			{ 0,  1, 1}, // Est
-			//{ 1, -1, 2}, // Sud-Ouest
+			  //{ 1, -1, 2}, // Sud-Ouest
 			{ 1,  0, 1}, // Sud
-			//{ 1,  1, 2}  // Sud-Est
+			  //{ 1,  1, 2}  // Sud-Est
     	};
     
     /**

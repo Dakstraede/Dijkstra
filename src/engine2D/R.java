@@ -50,7 +50,7 @@ public class R {
 			BufferedImage tmp = ImageIO.read(new File(imgPath + imagesName + ".png"));
 			imageMap.put(imagesName, tmp);
 			initTextures(imagesName, tmp);
-			System.out.println("Load File : " + imgPath + imagesName + ".png");
+			//System.out.println("Load File : " + imgPath + imagesName + ".png");
 		}
 	}
 	
