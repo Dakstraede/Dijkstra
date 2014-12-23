@@ -1,13 +1,13 @@
 ***************************************
-*                                     *
+* D                                   *
 *      *************************      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
-* D    GGGGGGGGGGGGGGGGGGGGGGGGG     A*
+* D    GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      GGGGGGGGGGGGGGGGGGGGGGGGG      *
 *      *************************      *
-*                                     *
+*                                   *A*
 ***************************************

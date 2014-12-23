@@ -25,7 +25,7 @@ public class GameWindow extends JFrame {
 	
 	private JButton start = new JButton("Start");
 	private JLabel speedLabel = new JLabel("Speed=" + R.fps);
-	private JSlider speedSlider = new JSlider(JSlider.VERTICAL, 100, 2000, R.fps);
+	private JSlider speedSlider = new JSlider(JSlider.VERTICAL, 20, 2000, R.fps);
 	private JLabel tourLabel = new JLabel();
 	private JTextField nbMouseDoor1 = new JTextField(3);
 	private JTextField nbMouseDoor2 = new JTextField(3);

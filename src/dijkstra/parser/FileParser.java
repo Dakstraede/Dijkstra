@@ -98,7 +98,7 @@ public class FileParser {
     					Node aroundNode = getNode(row + arounds[i][0], col + arounds[i][1]);
     					if (aroundNode != null) {
     						int weight = arounds[i][2];
-    						if (aroundNode.type.equals(Node.GRASS) ) weight = 3;
+    						if (aroundNode.type.equals(Node.GRASS) ) weight = 2;
     						current.addEdge(aroundNode, weight);
     					}	
     				}
